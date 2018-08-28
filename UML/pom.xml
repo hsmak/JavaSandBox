@@ -2,37 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hsmak</groupId>
-    <artifactId>CoreJava</artifactId>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modelVersion>4.0.0</modelVersion>
 
-    <modules>
-        <module>CloneObject</module>
-        <module>ConnectionPool</module>
-        <module>InnerClasses</module>
-        <module>StringClass</module>
-        <module>PassByValue</module>
-        <module>NumberFormatting</module>
-        <module>AccessModifiers</module>
-        <module>Collections</module>
-        <module>Generics</module>
-        <module>Enum</module>
-        <module>Inheritance</module>
-        <module>Serialization</module>
-        <module>Streams</module>
-        <module>NIO</module>
-        <module>JarManifest</module>
-        <module>Lambda</module>
-    </modules>
+    <artifactId>UML</artifactId>
 
     <properties>
         <!--<spring.version>3.2.13.RELEASE</spring.version>-->
         <spring.version>4.2.2.RELEASE</spring.version>
-        <spring.ws.version></spring.ws.version>
-        <spring.integration.version></spring.integration.version>
         <!--<hibernate.version>4.2.18.Final</hibernate.version>-->
         <hibernate.version>4.3.8.Final</hibernate.version>
     </properties>
