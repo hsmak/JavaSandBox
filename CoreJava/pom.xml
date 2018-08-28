@@ -24,7 +24,6 @@
         <module>Serialization</module>
         <module>Streams</module>
         <module>NIO</module>
-        <module>JarManifest</module>
         <module>Lambda</module>
     </modules>
 
