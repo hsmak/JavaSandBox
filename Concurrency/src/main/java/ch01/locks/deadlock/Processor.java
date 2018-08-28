@@ -57,7 +57,7 @@ public class Processor {
         }
     }
 
-    public void transfer1() throws InterruptedException {
+    public void transfer1() {
 
         Random random = new Random();
 
@@ -89,7 +89,7 @@ public class Processor {
         }
     }
 
-    public void transfer2() throws InterruptedException {
+    public void transfer2() {
 
         Random random = new Random();
 
