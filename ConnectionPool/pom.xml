@@ -2,29 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hsmak</groupId>
-    <artifactId>CoreJava</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>ConnectionPool</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <modules>
-        <module>CloneObject</module>
-        <module>InnerClasses</module>
-        <module>StringClass</module>
-        <module>PassByValue</module>
-        <module>NumberFormatting</module>
-        <module>AccessModifiers</module>
-        <module>Collections</module>
-        <module>Generics</module>
-        <module>Enum</module>
-        <module>Inheritance</module>
-        <module>Serialization</module>
-        <module>Streams</module>
-        <module>NIO</module>
-        <module>Lambda</module>
-    </modules>
+    <modelVersion>4.0.0</modelVersion>
 
     <properties>
         <!--<spring.version>3.2.13.RELEASE</spring.version>-->
@@ -144,5 +126,6 @@
 
         </plugins>
     </build>
+
 
 </project>
