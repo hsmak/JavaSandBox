@@ -1,0 +1,19 @@
+-----------------
+Design Patterns
+-----------------
+
+
+Visitor
+-----------------
+Whenever there are multiple different operations to be performed on the same data structure/collection
+then Visitor design pattern is applicable.
+The Visitor should contain the outcome of the visited items. The outcome could be summation, mapping... etc
+
+Q: How to apply it while Spring DI is in use?
+Q: What if the Object that needs to be visited is from a 3rd party jar? i.e. it doesn't implement the Visitable interface, and therefore it can't accept any visitor!
+A: Create another class that implements the Visitable interface and whose fields are mapping of the 3rd party object fields; or maybe the needed/calculated fields, or even the 3rd part object itself. The visitor should visit this new created bean.
+-----------------
+
+Observer
+-----------------
+-----------------
