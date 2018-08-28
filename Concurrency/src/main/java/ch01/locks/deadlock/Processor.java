@@ -144,22 +144,22 @@ class TestApp {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
+//                try {
                     processor.transfer1();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
         Thread t2 = new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
+//                try {
                     processor.transfer2();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
