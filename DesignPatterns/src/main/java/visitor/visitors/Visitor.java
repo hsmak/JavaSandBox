@@ -7,7 +7,7 @@ import visitor.model.Book;
  */
 public interface Visitor{
 
-    public void visit(Book book);
+    void visit(Book book);
 
 
 

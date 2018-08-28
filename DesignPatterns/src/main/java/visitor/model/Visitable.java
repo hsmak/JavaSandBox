@@ -8,6 +8,6 @@ import visitor.visitors.Visitor;
 //Element interface
 public interface Visitable{
 
-    public void accept(Visitor visitor);
+    void accept(Visitor visitor);
 
 }

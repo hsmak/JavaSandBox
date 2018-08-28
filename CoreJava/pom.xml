@@ -14,7 +14,6 @@
         <module>ConnectionPool</module>
         <module>InnerClasses</module>
         <module>StringClass</module>
-        <module>DesignPatterns</module>
         <module>PassByValue</module>
         <module>NumberFormatting</module>
         <module>AccessModifiers</module>

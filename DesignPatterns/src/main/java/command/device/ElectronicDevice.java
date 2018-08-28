@@ -5,12 +5,12 @@ package command.device;
  */
 public interface ElectronicDevice {
 
-    public void on();
+    void on();
 
-    public void off();
+    void off();
 
-    public void volumeUp();
+    void volumeUp();
 
-    public void volumenDown();
+    void volumenDown();
 
 }

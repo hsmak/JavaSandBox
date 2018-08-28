@@ -8,10 +8,10 @@ package command.command;
 
 public interface ICommand {
 
-    public void execute();
+    void execute();
 
     // You may want to offer the option to undo a command
 
-    public void undo();
+    void undo();
 
 }
