@@ -12,6 +12,8 @@
 
 
     <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <!--<spring.version>3.2.13.RELEASE</spring.version>-->
         <spring.version>4.2.2.RELEASE</spring.version>
         <spring.ws.version></spring.ws.version>
@@ -90,7 +92,7 @@
         </dependency>
     </dependencies>
 
-    <build>
+    <!--<build>
         <plugins>
 
             <plugin>
@@ -128,6 +130,6 @@
             </plugin>
 
         </plugins>
-    </build>
+    </build>-->
 
 </project>

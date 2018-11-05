@@ -27,6 +27,8 @@
     </modules>
 
     <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <!--<spring.version>3.2.13.RELEASE</spring.version>-->
         <spring.version>4.2.2.RELEASE</spring.version>
         <spring.ws.version></spring.ws.version>
@@ -108,7 +110,7 @@
     <build>
         <plugins>
 
-            <plugin>
+            <!--<plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.2</version>
                 <configuration>
@@ -116,9 +118,9 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
-            </plugin>
+            </plugin>-->
 
-            <plugin>
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>1.4</version>
@@ -140,7 +142,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
         </plugins>
     </build>
