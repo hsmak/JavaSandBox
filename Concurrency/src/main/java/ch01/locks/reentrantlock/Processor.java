@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Processor {
 
-    LinkedList<Integer> list = new LinkedList<Integer>();
+    LinkedList<Integer> list = new LinkedList<>();
 
     private final static int LIMIT = 10;
 

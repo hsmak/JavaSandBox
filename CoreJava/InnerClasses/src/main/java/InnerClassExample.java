@@ -7,6 +7,8 @@ public class InnerClassExample {
 
         InnerClassExample outer = new InnerClassExample();
 
+        // new MyInnerClass(); // compile error
+
         InnerClassExample.MyInnerClass inner = new InnerClassExample().new MyInnerClass();
         inner.callInnerClassMethod();
 
