@@ -8,6 +8,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by u308908 on 4/16/2015.
+ * Links:
+ *      - https://www.javacodegeeks.com/2015/09/concurrency-best-practices.html
  */
 public class Processor {
 
