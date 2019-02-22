@@ -14,11 +14,12 @@ import java.util.stream.Stream;
  * you can't use parallel!
  */
 public class StatelessStream {
+
     public static void main(String[] args){
-        createStreamUsingGenrate().limit(10).forEach(System.out::println);
+        createStreamUsingGenerate().limit(10).forEach(System.out::println);
     }
 
-    public static Stream createStreamUsingGenrate(){
+    public static Stream createStreamUsingGenerate(){
 
         Random random = new Random();
         int nextInt = random.nextInt(5);

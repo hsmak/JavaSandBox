@@ -2,12 +2,12 @@ package terminal.collect;
 
 import intermediate.Person;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static java.lang.System.out;
 
 /**
  * Created by hsmak on 5/6/15.
@@ -15,6 +15,11 @@ import java.util.stream.Collectors;
 public class TestApp {
     public static void main(String[] args) {
 
+        // Simple comparison
+        Stream.of("A", "B").map(String::new).collect(Collectors.toList()).forEach(out::println);
+        Stream.of("A", "B").map(String::new).collect(ArrayList::new, ArrayList::add, ArrayList::addAll).forEach(out::println);
+
+        //advanced
         List<Person> persons =
                 Arrays.asList(
                         new Person("Max", 18),
@@ -28,8 +33,7 @@ public class TestApp {
          * Collect accepts a Collector which consists of four different operations: a supplier, an accumulator, a combiner and a finisher
          */
         List<Person> filtered =
-                persons
-                        .stream()
+                persons.stream()
                         .filter(p -> p.name.startsWith("P"))
                         .collect(Collectors.toList());
         System.out.println(filtered);    // [Peter, Pamela]
@@ -37,11 +41,12 @@ public class TestApp {
 
 
         //The next example groups all persons by age:
-        Map<Integer, List<Person>> personsByAge = persons
-                .stream()
-                .collect(Collectors.groupingBy(p -> p.age));
-        personsByAge
-                .forEach((age, p) -> System.out.format("age %s: %s\n", age, p));
+        Map<Integer, List<Person>> personsByAge =
+                persons.stream()
+                        .collect(Collectors.groupingBy(p -> p.age));
+
+        personsByAge.forEach((age, p) -> System.out.format("age %s: %s\n", age, p));
+
         System.out.println();
 
 
@@ -49,9 +54,9 @@ public class TestApp {
          * Collectors are extremely versatile.
          * You can also create aggregations on the elements of the stream, e.g. determining the average age of all persons
          */
-        Double averageAge = persons
-                .stream()
-                .collect(Collectors.averagingInt(p -> p.age));
+        Double averageAge =
+                persons.stream()
+                        .collect(Collectors.averagingInt(p -> p.age));
         System.out.println(averageAge);     // 19.0
         System.out.println();
 
@@ -101,9 +106,6 @@ public class TestApp {
                 .collect(personNameCollector);
         System.out.println(names);  // MAX | PETER | PAMELA | DAVID
         System.out.println();
-
-
-
 
 
     }
