@@ -66,7 +66,7 @@ class Waiter implements Runnable{
     }
 }
 
-class TestApp {
+class CountDownLatchRunnerApp {
 
     public static void main(String[] args) throws InterruptedException {
 

@@ -47,7 +47,7 @@ public class Processor implements Runnable {
     }
 }
 
-class TestApp {
+class CyclicBarrierRunnerApp {
     public static void main(String[] args) throws InterruptedException {
 
         //this thread will be run after the other threads hit the barrier as many as indicated by count

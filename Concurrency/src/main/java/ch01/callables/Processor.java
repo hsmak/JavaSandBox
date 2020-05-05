@@ -7,7 +7,7 @@ import java.util.concurrent.*;
 /**
  * Created by hsmak on 4/16/15.
  */
-public class Processor1 implements Callable<Integer>{
+public class Processor implements Callable<Integer>{
 
     @Override
     public Integer call() throws Exception {
@@ -24,10 +24,10 @@ public class Processor1 implements Callable<Integer>{
     }
 }
 
-class TestApp1 {
+class CallableRunnerApp {
     public static void main(String[] args) {
         ExecutorService ex = Executors.newCachedThreadPool();
-        Future<Integer> future = ex.submit(new Processor1());
+        Future<Integer> future = ex.submit(new Processor());
 
         ex.shutdown();
 

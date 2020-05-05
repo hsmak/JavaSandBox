@@ -1,24 +1,25 @@
 package ch01.interrupts;
 
 import java.util.Random;
+import java.util.concurrent.*;
 
 /**
  * Created by hsmak on 4/16/15.
  */
-public class Processor1 {
-
-}
-
-class TestApp1{
+public class CallableProcessor {
 
     public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Starting.");
 
-        Thread t = new Thread(new Runnable() {
+
+        ExecutorService ex = Executors.newCachedThreadPool();
+        Future<?> future = ex.submit(new Callable<Void>() {
             @Override
-            public void run() {
+            public Void call() throws Exception {
+
                 Random random = new Random();
+
                 for(int i = 0; i<1E8; i++){
 
                     /*try {
@@ -30,20 +31,26 @@ class TestApp1{
 
                     if(Thread.currentThread().isInterrupted()){
                         System.out.println("We've been interrupted!");
-                        return;
+                        return null;
                     }
 
                     Math.sin(random.nextDouble());
                 }
+
+                return null;
             }
         });
 
-        t.start();
-        t.interrupt();//interrupts a sleep call; or check with the method "isInterrupted()"
+        ex.shutdown();
 
-        t.join();
+//        Thread.sleep(500);
+
+//        ex.shutdownNow();
+        future.cancel(true);
+
+        ex.awaitTermination(1, TimeUnit.DAYS);
 
         System.out.println("Finished");
-
     }
+
 }

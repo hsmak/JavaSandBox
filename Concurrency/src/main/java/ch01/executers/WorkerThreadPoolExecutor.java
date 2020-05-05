@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by hsmak on 4/15/15.
  */
-public class WorkerThreadPoolExecuter {
+public class WorkerThreadPoolExecutor {
 
     private List<Integer> list1 = new ArrayList<>();
     private List<Integer> list2 = new ArrayList<>();
@@ -75,6 +75,6 @@ public class WorkerThreadPoolExecuter {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new WorkerThreadPoolExecuter().process();
+        new WorkerThreadPoolExecutor().process();
     }
 }

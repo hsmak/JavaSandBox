@@ -27,7 +27,7 @@ public class WorkerCallable implements Callable<List<Integer>>{
     }
 }
 
-class TestApp{
+class WorkerCallableRunnerApp {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
