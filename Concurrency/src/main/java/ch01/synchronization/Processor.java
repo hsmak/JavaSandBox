@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class Processor {
 
-    LinkedList<Integer> list = new LinkedList<Integer>();
+    LinkedList<Integer> list = new LinkedList<>();
 
     private final static int LIMIT = 10;
 
@@ -16,6 +16,7 @@ public class Processor {
 
     public void produce() throws InterruptedException {
         int value = 0;
+        Random random = new Random();
         while (true) {
             synchronized (lock) {
                 while (list.size() == LIMIT) {
@@ -24,6 +25,7 @@ public class Processor {
                 list.add(value++);
                 lock.notify();
             }
+            Thread.sleep(random.nextInt(200));
         }
     }
 
@@ -44,7 +46,7 @@ public class Processor {
                 lock.notify();
             }
 
-            Thread.sleep(random.nextInt(100));
+            Thread.sleep(random.nextInt(200));
         }
     }
 }
