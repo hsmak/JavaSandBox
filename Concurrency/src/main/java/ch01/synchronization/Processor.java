@@ -18,7 +18,7 @@ public class Processor {
         int value = 0;
         Random random = new Random();
         while (true) {
-            synchronized (lock) {
+            synchronized (lock) {// in order to use lock.wait()/lock.notify() on the lock object, this thread must 1st own the lock on this object via synchronized(lock)
                 while (list.size() == LIMIT) {
                     lock.wait();
                 }
@@ -34,7 +34,7 @@ public class Processor {
         Random random = new Random();
 
         while (true) {
-            synchronized (lock) {
+            synchronized (lock) { // in order to use lock.wait()/lock.notify() on the lock object, this thread must 1st own the lock on this object via synchronized(lock)
 
                 while (list.isEmpty()) {
                     lock.wait();
