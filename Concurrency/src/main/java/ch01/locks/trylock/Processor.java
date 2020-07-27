@@ -22,8 +22,9 @@ public class Processor {
     public void produce() throws InterruptedException {
 
         int value = 0;
+        Random random = new Random();
 
-        while (true) {
+        while (true) {// However, busy loop is CPU intensive!!
 
             if (lock.tryLock()) {
                 try {//always use try/finally to make sure you unlock in case an Exception occurs
@@ -41,6 +42,14 @@ public class Processor {
 
                 }
             }
+
+            /**
+             * This sleep is necessary to avoid taking CPU resources due to the busy loop
+             *  - since tryLock is non-blocking
+             *
+             * Also, can be used to control the rate at which producer is producing. Shall we separate them into 2 sleeps?
+             */
+            Thread.sleep(random.nextInt(200));
         }
     }
 
@@ -69,8 +78,13 @@ public class Processor {
                 }
             }
 
-
-            Thread.sleep(random.nextInt(10));
+            /**
+             * This sleep is necessary to avoid taking CPU resources due to the busy loop
+             *  - since tryLock is non-blocking
+             *
+             * Also, can be used to control the rate at which consumer is consuming. Shall we separate them into 2 sleeps?
+             */
+            Thread.sleep(random.nextInt(200));
         }
     }
 }
