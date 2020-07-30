@@ -15,7 +15,7 @@ import java.util.List;
 
 public class ConnectionPoolSpring {
 
-    private List<Connection> l;// how about using Dequeue!
+    private List<Connection> l;// how about using Deque!
     // private Deque<Connection> d;
 
     private int connections;

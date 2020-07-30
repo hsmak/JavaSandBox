@@ -150,3 +150,9 @@ class A {
 class B extends A {
 
 }
+
+class Test<C, T>{
+    public <T, R extends C> R method(T t){
+        return null;
+    }
+}

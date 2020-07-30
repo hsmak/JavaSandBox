@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ConnectionPoolLegacy {
 
-    private List<Connection> l;// how about using Dequeue!
+    private List<Connection> l;// how about using Deque!
     // private Deque<Connection> d;
     private int connections;
 
@@ -36,7 +36,7 @@ public class ConnectionPoolLegacy {
     public ConnectionPoolLegacy(int connections) {
         this.connections = connections;
 
-        l = new ArrayList<Connection>(connections);
+        l = new ArrayList<>(connections);
 
         int i = this.connections;
         while (i-- != 0) {
