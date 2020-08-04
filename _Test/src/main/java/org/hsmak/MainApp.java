@@ -1,17 +1,15 @@
 package org.hsmak;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFileAttributes;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ForkJoinTask;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class MainApp {
@@ -29,7 +27,7 @@ public class MainApp {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
 
 
         MainApp ma = new MainApp();
@@ -107,6 +105,16 @@ public class MainApp {
         Stream<Integer> empty1 = Stream.<Integer>empty();
         Stream.of(1, 2, 3).filter(i -> i > 4).mapToInt(i -> i).sum();
 
+        Optional.ofNullable((String) null).orElse("te");
+
+
+//        testThreading();
+        testParallelStreamWithCustomForkJoinPool();
+
+
+    }
+
+    public static void testThreading() {
         Runnable r = () -> {
             Stream.iterate(1, i -> i + 1)
                     .limit(3)
@@ -116,23 +124,28 @@ public class MainApp {
         new Thread(r, "Lucy").start();
         new Thread(r, "Ricky").start();
 
-        Optional.ofNullable((String)null).orElse("te");
-
-//        new Thread(() -> {
-//            System.out.println("another thread: " + Thread.currentThread().getName());
-//            throw new IllegalArgumentException();
-//        }).start();
-//        an();
+        throwNumberFormatException();
+        new Thread(() -> {
+            System.out.println("another thread: " + Thread.currentThread().getName());
+            throw new IllegalArgumentException();
+        }).start();
 
     }
 
-    public static void test() {
-        System.out.println("ttttttttt");
+    public static void testParallelStreamWithCustomForkJoinPool() throws InterruptedException, ExecutionException {
+        ForkJoinPool forkJoinPool = new ForkJoinPool(2);
+        Stream<Integer> parallelPeek = Stream.generate(new Random()::nextInt)
+                .parallel()
+                .peek(i -> System.out.println(Thread.currentThread().getName()));
+
+        ForkJoinTask<List<Integer>> submit = forkJoinPool.submit(() -> parallelPeek.limit(100).collect(Collectors.toList()));
+        submit.get();
+//        Thread.sleep(1000);
+    }
+
+
+    public static void throwNumberFormatException() {
         throw new NumberFormatException();
-    }
-
-    public static void an() {
-        test();
 
     }
 
@@ -151,8 +164,8 @@ class B extends A {
 
 }
 
-class Test<C, T>{
-    public <T, R extends C> R method(T t){
+class Test<C, T> {
+    public <T, R extends C> R method(T t) {
         return null;
     }
 }
