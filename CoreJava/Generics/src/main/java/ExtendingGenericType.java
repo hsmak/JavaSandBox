@@ -82,7 +82,7 @@ public class ExtendingGenericType {
 
 //        List<Number> numbers = new ArrayList<Integer>();// Invalid
         List<? super Integer> numbers = new ArrayList<Integer>();//allowed but for RO operations?? i.e. useful for upcasting, method parameters etc
-        List<? extends Number> i = (List<Integer>) numbers;
+        List<? extends Number> i = (List<Integer>) numbers; // Downcasting this way makes the compiler issue a warning
 //        List<? super Number> numbers = new ArrayList<Number>();
 //        numbers.add(new Integer(1));
 //        numbers.add(new Double(2.2));

@@ -11,6 +11,9 @@ import java.util.List;
 
 public class ConnectionPoolLegacy {
 
+    private final String urlMysql = "jdbc:mysql://localhost:3306/ConnectionPool_db";
+    private final String urlDerby = "jdbc:derby:memory:ConnectionPool_db;create=true";
+
     private List<Connection> l;// how about using Deque!
     // private Deque<Connection> d;
     private int connections;
@@ -20,10 +23,13 @@ public class ConnectionPoolLegacy {
      */
     static {
 
+        /**
+         * Note: Class.forName() is no longer necessary as of JDBC 4.0 since Drivers seem to self-register with the DriverManager automatically.
+         */
         try {
 
 //            Class.forName("com.mysql.jdbc.Driver");
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 
         } catch (ClassNotFoundException e) {
 
@@ -41,8 +47,9 @@ public class ConnectionPoolLegacy {
 
         int i = this.connections;
         while (i-- != 0) {
+
             l.add(addConnections(
-                    "jdbc:mysql://localhost:3306/ConnectionPool_db", "java",
+                    urlDerby, "java",
                     "java"));
         }
     }

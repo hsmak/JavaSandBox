@@ -6,15 +6,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!--ToDo: replace with an embedded DB-->
-    <bean id="dataSource"
+    <!--<bean id="dataSourceMySql"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="com.mysql.cj.jdbc.Driver"
           p:url="jdbc:mysql://localhost:3306/ConnectionPool_db"
+          p:username="java"
+          p:password="java"/>-->
+
+    <bean id="dataSourceDerby"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="org.apache.derby.jdbc.EmbeddedDriver"
+          p:url="jdbc:derby:memory:ConnectionPool_db;create=true"
           p:username="java"
           p:password="java"/>
 
     <bean id="connectionPool" class="com.connection.spring.ConnectionPoolSpring"
           c:connections="2"
-          c:driverManagerDataSource-ref="dataSource"/>
+          c:driverManagerDataSource-ref="dataSourceDerby"/>
 
 </beans>

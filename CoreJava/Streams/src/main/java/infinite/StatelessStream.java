@@ -19,7 +19,7 @@ public class StatelessStream {
         createStreamUsingGenerate().limit(10).forEach(System.out::println);
     }
 
-    public static Stream createStreamUsingGenerate(){
+    public static Stream<Integer> createStreamUsingGenerate(){
 
         Random random = new Random();
         int nextInt = random.nextInt(5);
