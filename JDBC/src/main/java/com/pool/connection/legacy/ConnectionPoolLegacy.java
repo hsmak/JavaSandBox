@@ -1,4 +1,4 @@
-package com.connection.legacy;
+package com.pool.connection.legacy;
 
 import java.sql.Connection;
 //import java.sql.Driver;
@@ -6,7 +6,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 //import com.mysql.jdbc.Connection;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 public class ConnectionPoolLegacy {

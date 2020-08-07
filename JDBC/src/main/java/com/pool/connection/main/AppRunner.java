@@ -1,9 +1,9 @@
-package com.main;
+package com.pool.connection.main;
 
-import com.connection.legacy.ConnectionPoolLegacy;
-import com.connection.spring.ConnectionPoolSpring;
-import com.connection.legacy.RunnableConnectionLegacy;
-import com.connection.spring.RunnableConnectionSpring;
+import com.pool.connection.legacy.ConnectionPoolLegacy;
+import com.pool.connection.spring.ConnectionPoolSpring;
+import com.pool.connection.legacy.RunnableConnectionLegacy;
+import com.pool.connection.spring.RunnableConnectionSpring;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

@@ -1,4 +1,4 @@
-package com.connection.legacy;
+package com.pool.connection.legacy;
 
 import java.sql.Connection;
 

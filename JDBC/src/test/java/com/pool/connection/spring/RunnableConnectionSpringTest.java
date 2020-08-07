@@ -1,4 +1,4 @@
-package com.connection.spring;
+package com.pool.connection.spring;
 
 import com.google.code.tempusfugit.concurrency.ConcurrentRule;
 import com.google.code.tempusfugit.concurrency.ConcurrentTestRunner;

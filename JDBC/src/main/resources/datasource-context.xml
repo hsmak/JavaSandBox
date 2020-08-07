@@ -20,7 +20,7 @@
           p:username="java"
           p:password="java"/>
 
-    <bean id="connectionPool" class="com.connection.spring.ConnectionPoolSpring"
+    <bean id="connectionPool" class="com.pool.connection.spring.ConnectionPoolSpring"
           c:connections="2"
           c:driverManagerDataSource-ref="dataSourceDerby"/>
 
