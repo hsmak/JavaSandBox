@@ -2,7 +2,7 @@ package com.metadata;
 
 import java.sql.*;
 
-public class JDBCDriverMetaData {
+public class CursorScrollableUpdatable {
 
     static String url = "jdbc:derby:memory:ConnectionPool_db;create=true";
     static String user = "";
@@ -11,13 +11,15 @@ public class JDBCDriverMetaData {
     public static void main(String... args) throws SQLException {
         Connection connection = DriverManager.getConnection(url, user, password);
         DatabaseMetaData metaData = connection.getMetaData();
+
         System.out.println(metaData.getDriverName() + "...");
+
         if (metaData.supportsResultSetType(ResultSet.TYPE_FORWARD_ONLY)) {
             System.out.print("TYPE_FORWARD_ONLY");
             if (metaData.supportsResultSetConcurrency(
                     ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY)) {
-                System.out.println(" -> and supports CONCUR_READ_ONLY");
+                System.out.println(" --> and supports CONCUR_READ_ONLY");
             }
         }
 
