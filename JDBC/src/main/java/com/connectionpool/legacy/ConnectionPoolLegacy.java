@@ -1,4 +1,4 @@
-package com.pool.connection.legacy;
+package com.connectionpool.legacy;
 
 import java.sql.Connection;
 //import java.sql.Driver;
