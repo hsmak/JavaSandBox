@@ -73,15 +73,27 @@ class InputOutputStreamRunner {
 }
 
 /**
- * Object-Oriented I/O
+ * Object-Oriented I/O (Serialization/Deserialization)
  * Instead of Character/Byte orientation
  */
-class SerDesirRunner {
+class SerDeserRunner {
 
     static class Car implements Serializable {
 
+
         private String name = "Car";
         private String color = "Red";
+        private String model = "Ford";
+        private Car car = null; // If instantiated here, it'll blow up the stack "StackOverflow"
+
+        public Car() {
+        }
+
+        public Car(String name, String color, String model) {
+            this.name = name;
+            this.color = color;
+            this.model = model;
+        }
 
         public String getName() {
             return name;
@@ -99,26 +111,78 @@ class SerDesirRunner {
             this.color = color;
         }
 
+        public String getModel() {
+            return model;
+        }
+
+        public void setModel(String model) {
+            this.model = model;
+        }
+
+        public Car getCar() {
+            return car;
+        }
+
+        public void setCar(Car car) {
+            this.car = car;
+        }
+
         @Override
         public String toString() {
             return new ToStringBuilder(this)
                     .append("name", name)
                     .append("color", color)
+                    .append("model", model)
+                    .append("car", car)
                     .toString();
         }
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream("car.bin"));
+        System.out.println("SerDeserOnDesk:");
+        SerDeserOnDesk();
+        System.out.println();
+
+        System.out.println("SerDeserInMemory():");
+        SerDeserInMemory();
+        System.out.println();
+    }
+
+    public static void SerDeserOnDesk() throws IOException, ClassNotFoundException {
+        ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream("car.bin")); //On Desk
+        Car carOut = new Car();
+        carOut.setCar(new Car("ww","ww","ww"));
+        carOut.setName("AnotherName");
+        System.out.println(carOut);
+        objOut.writeObject(carOut);
+
+        objOut.flush();
+        objOut.close();
+
+        ObjectInputStream objIn = new ObjectInputStream(new FileInputStream("car.bin")); // On Desk
+        Car carIn = (Car) objIn.readObject();
+        System.out.println(carIn);
+    }
+
+    public static void SerDeserInMemory() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();// In Memory
+        ObjectOutputStream objOut = new ObjectOutputStream(baos);
         Car carOut = new Car();
         carOut.setName("AnotherName");
         System.out.println(carOut);
         objOut.writeObject(carOut);
 
+        objOut.flush();
+        objOut.close();
+
+
+        byte[] baosBuf = baos.toByteArray();
+
+        System.out.println(baosBuf.length);
+        ByteArrayInputStream bais = new ByteArrayInputStream(baosBuf);// In Memory
         ObjectInputStream objIn = new ObjectInputStream(new FileInputStream("car.bin"));
         Car carIn = (Car) objIn.readObject();
         System.out.println(carIn);
-
     }
 }
 
@@ -180,6 +244,7 @@ class DirectorySystemRunner {
         System.out.println("Listing all dir with a glob:");
         listDir("[sSdD]*");
         System.out.println();
+
 
 //        listDirRecur();
     }
