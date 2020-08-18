@@ -114,10 +114,9 @@ class PropertiesRunner {
         }
     }
 
-    /**
-     * This method is just to avoid the boilerplate with the checked exception in the lambda expression
-     * ToDo
-     * - Make it generic
+    /*
+     * ToDo: This method is just to avoid the boilerplate with the checked exception in the lambda expression
+     *      - Make it generic
      */
     public static InputStream createInputStreamFromURI(ThrowingSupplier<URI, URISyntaxException> ts) throws IOException {
         try {

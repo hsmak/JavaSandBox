@@ -93,13 +93,16 @@ public class MainApp {
         System.out.println(pq.poll());
         System.out.println(pq.peek());
 
-        List<? extends Number> l = new ArrayList<>();
+        List<? extends Number> l = new ArrayList<Integer>();
         List<Integer> ll = (List<Integer>) l;
         ll.add(123);
         l.forEach(i -> System.out.println(i));
 
+        // Super is used in method's arguments and variable/reference declaration
         List<? super A> lll = new ArrayList<>();
         lll.add(new B());
+        lll.add(new A());
+
         Comparator<Integer> comparing = Comparator.comparing(i -> i);
 
         Stream<Integer> empty1 = Stream.<Integer>empty();
@@ -113,6 +116,7 @@ public class MainApp {
 
 
     }
+
 
     public static void testThreading() {
         Runnable r = () -> {
