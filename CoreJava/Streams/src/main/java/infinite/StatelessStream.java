@@ -8,7 +8,7 @@ import java.util.stream.Stream;
  *
  * Stream.generate() is stateless but
  * you can make it statefull by supplying an implementation of Supplier interface that maintains a state,
- * such as the {@link FibonaccieMaker}
+ * such as the {@link FibonacciMaker}
  *
  * Stream.iterate() is fundamentally stateful!
  * you can't use parallel!
