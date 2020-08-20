@@ -23,7 +23,7 @@ public class StatfulStream {
 
     /*
      * Instead of lambda expression we created an implementation of a supplier
-     * FibonaccieMaker class maintains state in the method get()
+     * FibonacciMaker class maintains state in the method get()
      */
     public static Stream<Long> createFibStream() {
         return Stream.generate(new FibonacciMaker());
