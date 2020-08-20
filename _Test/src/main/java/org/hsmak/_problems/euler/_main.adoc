@@ -1,0 +1,12 @@
+= Git Guide (_Incomplete_)
+Husain AK
+:toc:
+:toclevels: 3
+:sectnums: 3
+:sectnumlevels: 3
+:icons: font
+
+
+Link: https://projecteuler.net[EulerProject.net, window=_blank]
+
+== Problem: Good String

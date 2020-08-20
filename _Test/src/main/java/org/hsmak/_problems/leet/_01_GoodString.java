@@ -1,11 +1,11 @@
-package org.hsmak.problems;
+package org.hsmak._problems.leet;
 
 /*
  * ToDo:
  *      - Refactor into its own packages and classes
  *      - Use JUnit to test all cases
  */
-public class LeetCode {
+public class _01_GoodString {
 
     public static void main(String[] args) {
         System.out.println(makeGood("aAd"));

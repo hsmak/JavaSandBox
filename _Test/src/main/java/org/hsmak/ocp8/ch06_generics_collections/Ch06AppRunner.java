@@ -5,7 +5,9 @@ import org.hsmak.ocp8._util.Utils;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -16,6 +18,44 @@ class EqualHashcodeRunner {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         noTransientVarInEqualAndHash();
+        sizeOfHashedCollection();
+    }
+
+    public static void sizeOfHashedCollection() {
+        System.out.println("--- sizeOfHashedCollection ---");
+
+        class Animal {
+            String name;
+
+            public Animal(String name) {
+                this.name = name;
+            }
+
+            @Override
+            public boolean equals(Object o) {
+                Animal animal = (Animal) o;
+                return Objects.equals(name, animal.name);
+            }
+
+//            @Override
+//            public int hashCode() {  return 9; }
+        }
+        Map<Animal, Integer> strIntMap = new HashMap<>();
+
+        strIntMap.put(new Animal("Cat"), 1);
+        /*
+         * - If hashCode() isn't overridden, this will be seen as a completely different object and will have it's own bucket.
+         * - If hashCode() is overridden, it will determine this object is already in the Map, and hence, will replace the existing one.
+         **/
+        strIntMap.put(new Animal("Cat"), 2);
+        strIntMap.put(new Animal("Horse"), 3);
+        strIntMap.put(new Animal("Dog"), 4);
+
+
+        System.out.print("strIntMap.size(): ");
+        System.out.println(strIntMap.size());
+        System.out.println();
+
     }
 
     public static void noTransientVarInEqualAndHash() throws IOException, ClassNotFoundException {
@@ -83,18 +123,20 @@ class QueueRunner {
 
 
     public static void testPriorityQueue() {
+        System.out.println("--- testPriorityQueue ---");
+
         System.out.println("Setting priority according to String length...");
-        Queue<String> strPriQueue = new PriorityQueue<>(Comparator.comparing(String::length));
-        strPriQueue.add("aaaaaa");
-        strPriQueue.add("bb");
-        strPriQueue.add("ccc");
+        Queue<String> strPQ = new PriorityQueue<>(Comparator.comparing(String::length));
+        strPQ.add("aaaaaa");
+        strPQ.add("bb");
+        strPQ.add("ccc");
 
         System.out.println("PriorityQueue doesn't store elements in order..");
-        System.out.println(strPriQueue);
+        System.out.println(strPQ);
         System.out.println();
 
         System.out.println("Sorting will show up during polling (according to elements' priorities)...");
-        Stream.generate(strPriQueue::poll).takeWhile(i -> i != null).forEach(System.out::println);
+        Stream.generate(strPQ::poll).takeWhile(i -> i != null).forEach(System.out::println);
         System.out.println();
     }
 
@@ -104,6 +146,7 @@ class QueueRunner {
      *   - poll(): returns null:
      */
     public static void testArrayDeque() {
+        System.out.println("--- testArrayDeque ---");
 
         List<Integer> ints = List.of(10, 9, 8, 7, 6, 5);
 
@@ -134,6 +177,12 @@ class QueueRunner {
         }
         System.out.println();
 
+        System.out.println("removing one element via ad.remove(): ");
+        for (ArrayDeque<Integer> ad : ads) {
+            System.out.println(ad.remove());
+        }
+        System.out.println();
+
 
     }
 
@@ -156,6 +205,8 @@ class NavigableCollRunner {
 
 
     public static void navigateTreeSet() {
+        System.out.println("--- navigateTreeSet ---");
+
         TreeSet<Integer> intTS = new TreeSet<>(List.of(1205, 1505, 1545, 1830, 1930));
         System.out.print("intTS: ");
         System.out.println(intTS);
@@ -203,6 +254,8 @@ class BackedCollectionRunner {
     }
 
     public static void testSubMap() throws Throwable {
+        System.out.println("--- testSubMap ---");
+
         TreeMap<String, String> strTM = new TreeMap<>();
         strTM.put("a", "ahmed");
 
@@ -275,14 +328,82 @@ class GenericsRunner {
 
     }
 
-    static <T extends Number> void m(List<? extends T> l) {
+    public static <T extends Number> void delegateToHelperToCaptureType(List<? extends T> l) {
 //        l.set(0, l.get(0)); // Won't compile. Instead use the below helper method to capture the type via <T>
-        upperBoundHelper(l, i -> i); //
+        /*
+         * ToDo: Figure out why (i -> i + 1) doesn't work!!
+         *  - I think it has to do with the fact that "extends" is to read/consume only
+         *  - Function interface "consumes" AND "produces"
+         *  - maybe it makes sense to pass a Consumer interface
+         */
+        captureTypeViaInvariant(l);
     }
 
     /*
-     * Lower Bound/Contravariant:   <? super Type>
-     * Upper Bound/Covariant:       <? extends Type>
+     * Wildcard Capture and Helper Methods
+     *  Link: https://docs.oracle.com/javase/tutorial/java/generics/capture.html
+     */
+    private static <T> void captureTypeViaInvariant(List<T> l) {
+        l.set(0, l.get(0)); // Resetting
+    }
+
+    public static <T extends Integer> void testWithFunctionalInterfaces(List<T> l) {
+        captureTypeViaTypeInferenceHelperWithFunction(l, i -> i);
+        captureTypeViaTypeInferenceHelperConsumer(l, i -> System.out.println(i));
+        /*
+         * - can't capture Type T from the param List<T> even though type parameter T is declared as <T extends Integer>, why?!?!
+         * - Looks like type declaration doesn't apply to the method param and its body/implementation (so stupid)!
+         * - If the method will always deal with a type and its subtype, specify in the method's argument not parameter type declaration
+         * - Method's parameter type declaration seems to apply at the caller's level not the method's body/implementation
+         **/
+//        captureTypeViaTypeInferenceHelperSupplier(l, () -> 56);
+    }
+
+    public static void testWithFunctionalInterfaces2(List<? super Number> l) {
+        captureTypeViaTypeInferenceHelperWithFunction(l, i -> i);
+        captureTypeViaTypeInferenceHelperConsumer(l, i -> System.out.println(i));
+        captureTypeViaTypeInferenceHelperSupplier(l, () -> Double.valueOf(56));
+    }
+
+
+    private static <T> void captureTypeViaTypeInferenceHelperWithFunction(List<T> l, Function<? super T, ? extends T> f) {
+        for (int i = 0; i < l.size(); i++) {
+            l.set(i, f.apply(l.get(i))); // Modify the generic collection
+        }
+    }
+
+    private static <T> void captureTypeViaTypeInferenceHelperConsumer(List<T> l, Consumer<? super T> c) {
+        for (T t : l)
+            c.accept(t); // Modify the generic collection
+    }
+
+    private static <T> void captureTypeViaTypeInferenceHelperSupplier(List<T> l, Supplier<? extends T> c) {
+        l.add(c.get()); // Modify the generic collection
+    }
+
+    /*
+     * Observations:
+     *  - You can add any elements of type Number and its "subtypes". However,
+     *  - You can NOT pass a List<Integer>, List<Double>, List<Any_Subtype_Of_Number>...
+     *  - You can ONLY pass a List<Number>, List<Object>, List<Supertype_Of_Number>...
+     *
+     **/
+    static void modifyList(List<? super Number> l) {
+        l.add(1); // add Integer
+        l.add(1.1); // add Double
+    }
+
+    /*
+     * - Lower Bound/Contravariant:   <? super Type>
+     * - Upper Bound/Covariant:       <? extends Type>
+
+     * - Invariant      List<T>:           consumer & producer
+     * - Covariant      List<? extends T>: producer only
+     * - Contravariant  List<? super T>:   consumer only
+     *
+     * - In JAVA, Method's parameter type declaration seems to apply at the caller's level not the method's body/implementation
+     *      - In SCALA, however, this bounded parameter type is recognized in the method's body/implementation
+     *
      *
      * PECS: (Producer Extends | Consumer Super)
      * Java's generics notes:
@@ -306,14 +427,6 @@ class GenericsRunner {
      */
     public static void testPECS() {
 
-    }
-
-    /*
-     * Wildcard Capture and Helper Methods
-     *  Link: https://docs.oracle.com/javase/tutorial/java/generics/capture.html
-     */
-    private static <T> void upperBoundHelper(List<T> l, Function<? super T, ? extends T> f) {
-        l.set(0, f.apply(l.get(0)));
     }
 
 
