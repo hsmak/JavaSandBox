@@ -2,7 +2,6 @@ package infinite;
 
 import java.util.Random;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 /**
@@ -10,7 +9,7 @@ import java.util.stream.Stream;
  *
  * Stream.generate() is stateless but
  * you can make it statefull by supplying an implementation of Supplier interface that maintains a state,
- * such as the {@link FibonaccieMaker}
+ * such as the {@link FibonacciMaker}
  *
  * Stream.iterate() is fundamentally stateful!
  * you can't take advantage of parallel() feature!
@@ -27,7 +26,7 @@ public class StatfulStream {
      * FibonaccieMaker class maintains state in the method get()
      */
     public static Stream<Long> createFibStream() {
-        return Stream.generate(new FibonaccieMaker());
+        return Stream.generate(new FibonacciMaker());
     }
 
     /*
@@ -52,7 +51,7 @@ public class StatfulStream {
  * Stateful Supplier; i.e it maintains state
  * get() is changing instance variables
  */
-class FibonaccieMaker implements Supplier<Long> {
+class FibonacciMaker implements Supplier<Long> {
 
     private long previous = 0;
     private long current = 1;
