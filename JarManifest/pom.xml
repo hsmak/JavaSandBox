@@ -16,7 +16,7 @@
         <spring.version>5.2.8.RELEASE</spring.version>
         <spring.ws.version></spring.ws.version>
         <spring.integration.version></spring.integration.version>
-        <hibernate.version>5.4.19.Final</hibernate.version>
+        <hibernate.version>5.4.20.Final</hibernate.version>
     </properties>
 
     <build>

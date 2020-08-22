@@ -173,12 +173,14 @@ class QueueRunner {
 
         System.out.println("printing all peek(): ");
         for (ArrayDeque<Integer> ad : ads) {
+            //ToDo - perform peekFirst(), peekLast()
             System.out.println(ad.peek()); // Returning the element from the head/front/left/ of the Deque without removing
         }
         System.out.println();
 
         System.out.println("removing one element via ad.remove(): ");
         for (ArrayDeque<Integer> ad : ads) {
+            //ToDo - perform pop(), poll(), pollFirst(), pollLast()
             System.out.println(ad.remove());
         }
         System.out.println();
@@ -241,6 +243,9 @@ class NavigableCollRunner {
      */
     public static void navigateTreeMap() {
 
+        TreeMap<String, Integer> tm = new TreeMap<>(Map.of("A", 1, "B", 2, "C", 3));
+        tm.pollFirstEntry();
+        tm.pollLastEntry();
     }
 }
 
