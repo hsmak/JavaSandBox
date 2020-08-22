@@ -34,37 +34,42 @@ public class _01_GoodStringTest {
     }
 
     @Test
-    public void testMakeGoodFor2Chars() {
+    public void testMakeGoodForTwoCharsBad() {
         assertThat(gs.makeGood("aA"), is(""));
     }
 
     @Test
-    public void testMakeGoodFor2Chars2() {
+    public void testMakeGoodForTwoCharsBadSwapped() {
         assertThat(gs.makeGood("Aa"), is(""));
     }
 
     @Test
-    public void testMakeGoodForNonEmptyString3Chars() {
+    public void testMakeGoodForThreeCharsBad() {
         assertThat(gs.makeGood("aAd"), is("d"));
     }
 
     @Test
-    public void testMakeGoodForNonEmptyStringValid4Char() {
+    public void testMakeGoodForFourCharsGood() {
         assertThat(gs.makeGood("abcd"), is("abcd"));
     }
 
     @Test
-    public void testMakeGoodForNonEmptyStringValid5Char() {
+    public void testMakeGoodForFourCharsGood2() {
+        assertThat(gs.makeGood("aBcD"), is("aBcD"));
+    }
+
+    @Test
+    public void testMakeGoodForFiveCharsGood() {
         assertThat(gs.makeGood("abcde"), is("abcde"));
     }
 
     @Test
-    public void testMakeGoodForNonEmptyStringInvalid5() {
+    public void testMakeGoodForFiveCharsBad() {
         assertThat(gs.makeGood("aAdbB"), is("d"));
     }
 
     @Test
-    public void testMakeGoodForNonEmptyStringInvalid7() {
+    public void testMakeGoodForSevenCharsBad() {
         assertThat(gs.makeGood("caAdbBo"), is("cdo"));
     }
 
@@ -74,7 +79,7 @@ public class _01_GoodStringTest {
     }
 
     @Test
-    public void testMakeGoodForLeetCode2() {
+    public void testMakeGoodForRecursion() {
         assertThat(gs.makeGood("abBAcC"), is(""));
     }
 

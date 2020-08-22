@@ -15,8 +15,10 @@ public class _01_GoodString {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
             char cur = chars[i];
-            if (i == chars.length - 1)
-                return sb.append(cur).toString();
+            if (i == chars.length - 1) {
+                sb.append(cur);
+                break;
+            }
 
             char nxt = chars[i + 1];
             if (isOneUpperTheOtherLower(cur, nxt)) {//NOR; the negation of XOR
@@ -25,7 +27,7 @@ public class _01_GoodString {
             }
             sb.append(cur);
         }
-        return makeGood(sb.toString()); //Recursive Call
+        return sb.length() == s.length() ? sb.toString() : makeGood(sb.toString()); //Recursive Call
     }
 
     private boolean isOneUpperTheOtherLower(char prev, char cur) {
