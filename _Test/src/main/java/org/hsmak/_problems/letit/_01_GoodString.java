@@ -1,10 +1,12 @@
-package org.hsmak._problems.leet;
+package org.hsmak._problems.letit;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 public class _01_GoodString {
 
-    public String makeGood(String s) {
+    private Function<String, String> strategy;
+    private Function<String, String> defaultStrategy = s -> {
         if (Objects.isNull(s) || s.isBlank())
             return "";
 
@@ -27,10 +29,23 @@ public class _01_GoodString {
             }
             sb.append(cur);
         }
-        return sb.length() == s.length() ? sb.toString() : makeGood(sb.toString()); //Recursive Call
+        return sb.length() == s.length() ? sb.toString() : this.defaultStrategy.apply(sb.toString()); //Recursive function call
+    };
+
+    _01_GoodString() {
+        this.strategy = defaultStrategy;
+    }
+
+    _01_GoodString(Function<String, String> strategy) {
+        this.strategy = strategy;
+    }
+
+    public String makeGood(String s) {
+        return strategy.apply(s);
     }
 
     private boolean isOneUpperTheOtherLower(char prev, char cur) {
         return Objects.equals(Character.toLowerCase(prev), Character.toLowerCase(cur)) && !(Character.isLowerCase(prev) ^ Character.isUpperCase(cur));
     }
+
 }

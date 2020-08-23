@@ -1,4 +1,4 @@
-package org.hsmak._problems.leet;
+package org.hsmak._problems.letit;
 
 import org.junit.Before;
 import org.junit.Test;
