@@ -8,8 +8,6 @@
     <artifactId>datastructures-algorithms</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>datastructures-algorithms</name>
-
     <properties>
         <encoding>UTF-8</encoding>
         <maven.compiler.source>11</maven.compiler.source>

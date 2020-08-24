@@ -8,8 +8,6 @@
     <artifactId>abstractions</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>abstractions</name>
-
     <properties>
         <encoding>UTF-8</encoding>
         <maven.compiler.source>11</maven.compiler.source>
