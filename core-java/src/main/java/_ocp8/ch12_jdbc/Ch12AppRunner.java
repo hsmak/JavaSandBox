@@ -1,6 +1,6 @@
-package ocp8.ch08_lambda_functionalinterfaces;
+package _ocp8.ch12_jdbc;
 
-public class Ch08AppRunner {
+public class Ch12AppRunner {
     public static void main(String[] args) {
         System.out.println(2222);
     }

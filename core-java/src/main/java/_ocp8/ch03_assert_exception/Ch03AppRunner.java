@@ -1,4 +1,4 @@
-package ocp8.ch03_assert_exception;
+package _ocp8.ch03_assert_exception;
 
 import java.io.Closeable;
 import java.io.IOException;

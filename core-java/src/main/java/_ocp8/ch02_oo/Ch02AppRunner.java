@@ -1,4 +1,4 @@
-package ocp8.ch02_oo;
+package _ocp8.ch02_oo;
 
 class OverridingRunner {
     interface T {

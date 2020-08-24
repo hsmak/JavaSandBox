@@ -168,6 +168,63 @@ enum GSStrategyE implements Function<String, String> {
             return sb.reverse().toString();
         }
     },
+    STRATEGY_07 {
+        @Override
+        public String apply(String s) {
+            Stack<Character> stack = new Stack();
+            for (int i = 0; i < s.length(); i++) {
+                if (!stack.empty() && Math.abs(stack.peek() - s.charAt(i)) == 32) {
+                    stack.pop();
+                } else
+                    stack.push(s.charAt(i));
+            }
+            char[] res = new char[stack.size()];
+            int i = stack.size() - 1;
+            while (!stack.isEmpty()) {
+                res[i--] = stack.pop();
+            }
+
+            return new String(res);
+        }
+    },
+    STRATEGY_08 {
+        @Override
+        public String apply(String s) {
+            Stack<Character> stack = new Stack();
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);
+                if (!stack.isEmpty() && Math.abs(stack.peek() - ch) == 32)
+                    stack.pop();
+                else
+                    stack.push(ch);
+            }
+            char[] result = new char[stack.size()];
+            int index = result.length - 1;
+            while (!stack.isEmpty())
+                result[index--] = stack.pop();
+            return new String(result);
+        }
+    },
+    STRATEGY_09 {
+        @Override
+        public String apply(String s) {
+            if (s.isEmpty()) return s;
+            char[] arr = s.toCharArray();
+            Stack<Character> stack = new Stack<>();
+
+            for (char c : arr) {
+                if (stack.isEmpty() || (c + 32 != stack.peek() && c - 32 != stack.peek())) {
+                    stack.push(c);
+                } else {
+                    stack.pop();
+                }
+            }
+
+            StringBuilder b = new StringBuilder();
+            for (char c : stack) b.append(c);
+            return b.toString();
+        }
+    },
     STRATEGY_IN_PLACE_01 {
         @Override
         public String apply(String s) {

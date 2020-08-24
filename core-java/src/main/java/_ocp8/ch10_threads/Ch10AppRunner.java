@@ -1,6 +1,6 @@
-package ocp8.ch11_concurrency;
+package _ocp8.ch10_threads;
 
-public class Ch11AppRunner {
+public class Ch10AppRunner {
     public static void main(String[] args) {
         System.out.println(2222);
     }

@@ -1,4 +1,4 @@
-package ocp8.ch01_declaration_access_enum;
+package _ocp8.ch01_declaration_access_enum;
 
 
 class ObjectWorkflowOrderRunner {
