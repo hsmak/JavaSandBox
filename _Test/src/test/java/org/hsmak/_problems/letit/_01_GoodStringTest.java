@@ -1,7 +1,10 @@
 package org.hsmak._problems.letit;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.EnumSet;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,12 +14,17 @@ public class _01_GoodStringTest {
 
     _01_GoodString gs;
 
+    @BeforeClass
+    public static void init() {
+        EnumSet<GSStrategyE> strategySet = EnumSet.allOf(GSStrategyE.class);
+        strategySet.forEach(System.out::println);
+
+//        EnumMap<GSStrategyE, String> enumMap = new EnumMap<>(GSStrategyE.class);
+    }
+
     @Before
     public void setUp() throws Exception {
-
-//        EnumSet<GSStrategies> strategyEnums = EnumSet.of(GSStrategies.DEFAULT, GSStrategies.STRATEGY_03);
-
-        gs = new _01_GoodString(GSStrategies.DEFAULT);
+        gs = new _01_GoodString(GSStrategyE.DEFAULT);
     }
 
     @Test

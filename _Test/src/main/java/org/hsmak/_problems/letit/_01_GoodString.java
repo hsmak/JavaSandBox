@@ -7,7 +7,7 @@ import java.util.Stack;
 import java.util.function.Function;
 
 
-enum GSStrategies implements Function<String, String> {
+enum GSStrategyE implements Function<String, String> {
     DEFAULT {
         @Override
         public String apply(String s) {
