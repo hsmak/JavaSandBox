@@ -13,7 +13,10 @@ public class _01_GoodStringTest {
 
     @Before
     public void setUp() throws Exception {
-        gs = new _01_GoodString();
+
+//        EnumSet<GSStrategies> strategyEnums = EnumSet.of(GSStrategies.DEFAULT, GSStrategies.STRATEGY_03);
+
+        gs = new _01_GoodString(GSStrategies.DEFAULT);
     }
 
     @Test
