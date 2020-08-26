@@ -1,19 +1,25 @@
 package org.hsmak.letit;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-//import static org.hamcrest.MatcherAssert.assertThat;
-//import static org.junit.Assert.*;
 
+@RunWith(Parameterized.class)
 public class ReverseStringTest {
 
-    ReverseString reverseString;
+    private ReverseString reverseString;
 
-    @Before
-    public void setUp() throws Exception {
-        reverseString = new ReverseString();
+    public ReverseStringTest(RSStrategyE e) {
+        this.reverseString = new ReverseString(e);
+    }
+
+    @Parameterized.Parameters(name = "Strategy -> {0}")
+    public static EnumSet<RSStrategyE> getEnums() {
+        return EnumSet.allOf(RSStrategyE.class);
     }
 
     @Test
@@ -38,7 +44,6 @@ public class ReverseStringTest {
         reverseString.reverseString(chars);
         assertThat(String.valueOf(chars)).isEqualTo(new StringBuilder(str).reverse().toString());
     }
-
 
     @Test
     public void testReverseStringEven() {

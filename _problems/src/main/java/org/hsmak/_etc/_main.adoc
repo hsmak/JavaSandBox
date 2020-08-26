@@ -1,0 +1,65 @@
+= Git Guide (_Incomplete_)
+Husain AK
+:toc:
+:toclevels: 3
+:sectnums: 3
+:sectnumlevels: 3
+:icons: font
+
+:source-highlighter: highlightjs
+
+// To Disable caption numbering
+:table-caption!:
+
+Link: https://projecteuler.net[EulerProject.net, window=_blank]
+
+== Problem: Good String
+
+== Problem: Reverse String - Reverse (k) Chars Every (2*k)
+
+.Description
+----
+Given a string of size n and an integer k, reverse the first k chars for every 2*k chars of the string. Reverse all of them if less than k chars are left.
+----
+
+.Example:
+----
+Input: s = "abcdefg", k = 2
+Output: "bacdfeg"
+----
+
+.Values for k = 2
+|===
+|i = 2*k (steps) |j = [i : i+k-1] (range)
+
+|0
+|0, 1
+
+|4
+|4, 5
+
+|8
+|8, 9
+
+|12
+|12, 13
+
+|===
+
+.Values for k = 3
+|===
+|i = 2*k (steps) |j = [i : i+k-1] (range)
+
+|0
+|0, 1, 2
+
+|6
+|6, 7, 8
+
+|12
+|12, 13, 14
+
+|18
+|18, 19, 20
+
+|===

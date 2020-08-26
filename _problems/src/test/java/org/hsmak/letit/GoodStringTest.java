@@ -1,33 +1,27 @@
 package org.hsmak.letit;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//import static org.hamcrest.CoreMatchers.is;
-//import static org.hamcrest.MatcherAssert.assertThat;
-//import static org.junit.Assert.*;
 
+@RunWith(Parameterized.class)
 public class GoodStringTest {
 
-    GoodString gs;
+    private GoodString gs;
 
-    @BeforeClass
-    public static void init() {
-        EnumSet<GSStrategyE> strategySet = EnumSet.allOf(GSStrategyE.class);
-        strategySet.forEach(System.out::println);
-
-//        EnumMap<GSStrategyE, String> enumMap = new EnumMap<>(GSStrategyE.class);
+    public GoodStringTest(GSStrategyE e) {
+        gs = new GoodString(e);
     }
 
-    @Before
-    public void setUp() throws Exception {
-        gs = new GoodString();
-//        gs = new GoodString(GSStrategyE.DEFAULT);
+    @Parameters(name = "Strategy -> {0}")
+    public static EnumSet<GSStrategyE> getEnums() {
+        return EnumSet.allOf(GSStrategyE.class);
     }
 
     @Test

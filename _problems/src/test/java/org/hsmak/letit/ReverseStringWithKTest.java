@@ -1,24 +1,34 @@
 package org.hsmak.letit;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
+import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@RunWith(Parameterized.class)
 public class ReverseStringWithKTest {
 
-    ReverseStringWithK reverseStringWithK;
-    @Before
-    public void setUp() throws Exception {
-        reverseStringWithK = new ReverseStringWithK();
+    private ReverseStringWithK reverseStringWithK;
+
+    public ReverseStringWithKTest(RSWKStrategyE e) {
+        reverseStringWithK = new ReverseStringWithK(e);
+    }
+
+    @Parameters(name = "Strategy -> {0}")
+    public static EnumSet<RSWKStrategyE> getStrategyEnum() {
+        return EnumSet.allOf(RSWKStrategyE.class);
     }
 
     @Test
     public void reverseStr() {
 
-        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 2)).isEqualTo("bacdfeg");
-
         assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 1)).isEqualTo("abcdefg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefgh", 2)).isEqualTo("bacdfegh");
 
         assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 3)).isEqualTo("cbadefg");
 

@@ -17,17 +17,32 @@
     <dependencies>
 
         <!--Unit Testing-->
+        <!--JUnit 4.x-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
+        <!--JUnit 5.x-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+
+        </dependency>
+        <!--Hamcrest 2.x-->
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
         </dependency>
+        <!--AssertJ 3.x-->
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
+            <version>3.17.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.tempus-fugit</groupId>

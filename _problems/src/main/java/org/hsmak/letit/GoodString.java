@@ -43,6 +43,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_02 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             String[] h = s.split("");
             ArrayList<String> H = new ArrayList<String>();
             for (int i = 0; i < h.length; i++)
@@ -68,6 +71,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_03 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             Stack<Character> stack = new Stack<>();
 
             for (int i = 0; i < s.length(); ++i) {
@@ -99,6 +105,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_04 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             Stack<Character> stack = new Stack<Character>();
             for (int i = 0; i < s.length(); i++) {
 
@@ -120,6 +129,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_05 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             boolean check = true;
             if (s == null) {
                 return "";
@@ -151,6 +163,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_06 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             Stack<Character> st = new Stack<>();
 
             for (int i = 0; i < s.length(); i++) {
@@ -171,6 +186,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_07 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             Stack<Character> stack = new Stack();
             for (int i = 0; i < s.length(); i++) {
                 if (!stack.empty() && Math.abs(stack.peek() - s.charAt(i)) == 32) {
@@ -190,6 +208,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_08 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             Stack<Character> stack = new Stack();
             for (int i = 0; i < s.length(); i++) {
                 char ch = s.charAt(i);
@@ -208,7 +229,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_09 {
         @Override
         public String apply(String s) {
-            if (s.isEmpty()) return s;
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             char[] arr = s.toCharArray();
             Stack<Character> stack = new Stack<>();
 
@@ -228,6 +251,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_IN_PLACE_01 {
         @Override
         public String apply(String s) {
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             StringBuilder sb = new StringBuilder();
             char[] characters = s.toCharArray();
             for (char c : characters) {
@@ -243,8 +269,9 @@ enum GSStrategyE implements Function<String, String> {
     STRATEGY_IN_PLACE_02 {
         @Override
         public String apply(String s) {
-            if (s.length() <= 1)
-                return s;
+            if (Objects.isNull(s) || s.isBlank())
+                return "";
+
             int i = 0, j = 1;
             StringBuilder sb = new StringBuilder(s);
             while (j < sb.length() && sb.length() > 1) {
@@ -266,12 +293,13 @@ enum GSStrategyE implements Function<String, String> {
 
 public class GoodString {
 
-    private Function<String, String> strategy = GSStrategyE.DEFAULT;
+    private Function<String, String> strategy;
 
-    GoodString() {
+    public GoodString() {
+        strategy = GSStrategyE.DEFAULT;
     }
 
-    GoodString(Function<String, String> strategy) {
+    public GoodString(Function<String, String> strategy) {
         this.strategy = strategy;
     }
 
@@ -279,8 +307,11 @@ public class GoodString {
         return strategy.apply(s);
     }
 
-    private boolean isOneUpperTheOtherLower(char prev, char cur) {
-        return Objects.equals(Character.toLowerCase(prev), Character.toLowerCase(cur)) && !(Character.isLowerCase(prev) ^ Character.isUpperCase(cur));
+    public Function<String, String> getStrategy() {
+        return strategy;
     }
 
+    public void setStrategy(Function<String, String> strategy) {
+        this.strategy = strategy;
+    }
 }

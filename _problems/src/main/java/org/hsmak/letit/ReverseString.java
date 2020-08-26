@@ -9,12 +9,12 @@ enum RSStrategyE implements Function<char[], Void> {
         public Void apply(char[] s) {
             if (Objects.isNull(s) || s.length == 1)
                 return null;
-            int l = s.length;
+            int n = s.length;
 
-            for (int i = 0; i < l / 2; i++) {
+            for (int i = 0; i < n / 2; i++) {
                 char front = s[i];
-                s[i] = s[l - 1 - i];
-                s[l - 1 - i] = front;
+                s[i] = s[n - 1 - i];
+                s[n - 1 - i] = front;
             }
             return null;
         }
@@ -23,9 +23,10 @@ enum RSStrategyE implements Function<char[], Void> {
 
 public class ReverseString {
 
-    private Function<char[], Void> strategy = RSStrategyE.DEFAULT_IN_PLACE;
+    private Function<char[], Void> strategy;
 
     public ReverseString() {
+        strategy = RSStrategyE.DEFAULT_IN_PLACE;
     }
 
     public ReverseString(Function<char[], Void> strategy) {
