@@ -15,9 +15,18 @@ public class ReverseStringWithKTest {
 
     @Test
     public void reverseStr() {
-        String str = "abcdefg";
-        String reversedStr = reverseStringWithK.reverseFirstKEvery2K(str, 2);
-        assertThat(reversedStr).isEqualTo("bacdefg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 2)).isEqualTo("bacdfeg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 1)).isEqualTo("abcdefg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 3)).isEqualTo("cbadefg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 7)).isEqualTo("gfedcba");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 4)).isEqualTo("dcbaefg");
+
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 40)).isEqualTo("gfedcba");
 
     }
 }
