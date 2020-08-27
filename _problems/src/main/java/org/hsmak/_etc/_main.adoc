@@ -17,10 +17,21 @@ Link: https://projecteuler.net[EulerProject.net, window=_blank]
 
 == Problem: Reverse String - Reverse (k) Chars Every (2*k)
 
-//ToDo - Finish the description in regard of n
 .Description
 ----
-Given a string of size n and an integer k, reverse the first k chars for every 2*k chars of the string. Reverse all of them if less than k chars are left.
+Given a string of size n and an integer k, reverse the first k chars for every 2*k chars of the string. If the 2*k steps happens to be the last section of the string, reverse all of them if thhe section is less than k chars.
+----
+
+.Edge Case
+----
+Input: "abcdefghijklmn"
+Given this string of size n=10
+k = 3
+step size 2*k = 6
+--
+From:   "abc def ghi jkl mn"
+To;     "cba def ihg jkl nm" <- UpperBound of last section is beyound string's length!
+Output: "cbadefihgjklnm"
 ----
 
 .Example:
@@ -64,3 +75,4 @@ Output: "bacdfeg"
 |18, 19, 20
 
 |===
+

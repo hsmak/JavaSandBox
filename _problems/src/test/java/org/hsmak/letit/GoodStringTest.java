@@ -8,6 +8,7 @@ import org.junit.runners.Parameterized.Parameters;
 import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hsmak.letit.GoodString.StrategyE;
 
 
 @RunWith(Parameterized.class)
@@ -15,13 +16,13 @@ public class GoodStringTest {
 
     private GoodString gs;
 
-    public GoodStringTest(GSStrategyE e) {
+    public GoodStringTest(StrategyE e) {
         gs = new GoodString(e);
     }
 
     @Parameters(name = "Strategy -> {0}")
-    public static EnumSet<GSStrategyE> getEnums() {
-        return EnumSet.allOf(GSStrategyE.class);
+    public static EnumSet<StrategyE> getEnums() {
+        return EnumSet.allOf(StrategyE.class);
     }
 
     @Test

@@ -7,19 +7,20 @@ import org.junit.runners.Parameterized;
 import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hsmak.letit.ReverseString.*;
 
 @RunWith(Parameterized.class)
 public class ReverseStringTest {
 
     private ReverseString reverseString;
 
-    public ReverseStringTest(RSStrategyE e) {
+    public ReverseStringTest(StrategyE e) {
         this.reverseString = new ReverseString(e);
     }
 
     @Parameterized.Parameters(name = "Strategy -> {0}")
-    public static EnumSet<RSStrategyE> getEnums() {
-        return EnumSet.allOf(RSStrategyE.class);
+    public static EnumSet<StrategyE> getEnums() {
+        return EnumSet.allOf(StrategyE.class);
     }
 
     @Test

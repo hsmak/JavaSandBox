@@ -8,23 +8,24 @@ import org.junit.runners.Parameterized.Parameters;
 import java.util.EnumSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hsmak.letit.ReverseStringWithK.StrategyE;
 
 @RunWith(Parameterized.class)
 public class ReverseStringWithKTest {
 
     private ReverseStringWithK reverseStringWithK;
 
-    public ReverseStringWithKTest(RSWKStrategyE e) {
+    public ReverseStringWithKTest(StrategyE e) {
         reverseStringWithK = new ReverseStringWithK(e);
     }
 
     @Parameters(name = "Strategy -> {0}")
-    public static EnumSet<RSWKStrategyE> getStrategyEnum() {
-        return EnumSet.allOf(RSWKStrategyE.class);
+    public static EnumSet<StrategyE> getStrategyEnum() {
+        return EnumSet.allOf(StrategyE.class);
     }
 
     @Test
-    public void reverseStr() {
+    public void testReverseStringWithK1() {
 
         assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 1)).isEqualTo("abcdefg");
 
@@ -38,5 +39,10 @@ public class ReverseStringWithKTest {
 
         assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefg", 40)).isEqualTo("gfedcba");
 
+    }
+
+    @Test
+    public void testReverseStringWithK2() {
+        assertThat(reverseStringWithK.reverseFirstKEvery2K("abcdefghijklmn", 3)).isEqualTo("cbadefihgjklnm");
     }
 }
