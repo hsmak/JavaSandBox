@@ -110,24 +110,69 @@ class BinaryFunctionalInterfaces {
 
 }
 
+/*
+ * Used in replaceAll() in collection types
+ */
 class UnaryOperator { // there's only one UnaryOperator
 
 }
 
-class FunctionBasedTransformersInCollection{
+class FunctionalTransformersInCollection {
     public static void main(String[] args) {
-        Map<String, String> m = new TreeMap<>();
-//        m.compute();
-//        m.computeIfAbsent();
-//        m.computeIfPresent();
-//        m.replaceAll();
+        System.out.println("--- FunctionBasedTransformersInCollection ---");
+
+        Map<String, String> tm = new TreeMap<>();
+        tm.put("Bob", "Doctor");
+        tm.put("Alice", "Surgeon");
+        tm.put("Adam", "Pilot");
+        tm.put("Tiffie", "Engineer");
+        System.out.print("tm: ");
+        System.out.println(tm);
+        System.out.println();
+
+        System.out.println("- computeIfAbsent() -");
+        System.out.println("Calling: tm.computeIfAbsent(\"Jessie\", k -> k + \" III\")");
+        tm.computeIfAbsent("Jessie", k -> "Engineer III");
+        System.out.print("After change: ");
+        System.out.println(tm);
+        System.out.println();
+
+        System.out.println("- computeIfPresent() -");
+        System.out.println("Calling: tm.computeIfPresent(\"Bob\", k -> k + \" II\")");
+        tm.computeIfPresent("Bob", (k, v) -> v + " II");
+        System.out.print("After change: ");
+        System.out.println(tm);
+        System.out.println();
+
+        System.out.println("- compute() an existing -");
+        System.out.println("Calling: tm.compute(\"Alice\", (k, v) -> v + \" IV\")");
+        tm.compute("Alice", (k, v) -> v + " IV");
+        System.out.print("After change: ");
+        System.out.println(tm);
+        System.out.println();
+
+        System.out.println("- compute() non-existing -");
+        System.out.println("Calling: tm.compute(\"Jeff\", (k, v) -> \"Newbie\")");
+        tm.compute("Jeff", (k, v) -> "Newbie");
+        System.out.print("After change: ");
+        System.out.println(tm);
+        System.out.println();
+
+        System.out.println("- replaceAll() -");
+        System.out.println("Calling: tm.replaceAll((k, v) -> v.toUpperCase())");
+        tm.replaceAll((k, v) -> v.toUpperCase());
+        System.out.print("After change: ");
+        System.out.println(tm);
+        System.out.println();
+
     }
 
 }
+
 class HigherOrderFunctions {
 
 }
 
-class Currying {
+class CurryingWithHighOrderFunctions {
 
 }

@@ -26,11 +26,15 @@ public class ReverseWordsInStringTest {
 
     @Test
     public void reverseWords() {
-        assertThat(reverseWordsInString.reverseWords("Let's take LeetCode contest")).isEqualTo("s'teL ekat edoCteeL tsetnoc");
+        assertThat(reverseWordsInString.reverseWords("Let's take LetItCode contest")).isEqualTo("s'teL ekat edoCtIteL tsetnoc");
     }
 
     @Test
     public void reverseWordsWithMultipleWhiteSpaces() {
-        assertThat(reverseWordsInString.reverseWords("Let's take   LeetCode       contest")).isEqualTo("s'teL ekat   edoCteeL       tsetnoc");
+        assertThat(reverseWordsInString.reverseWords("Let's take   LetItCode       contest")).isEqualTo("s'teL ekat   edoCtIteL       tsetnoc");
+    }
+    @Test
+    public void reverseWordsWithMultipleWhiteSpacesAndTrailingSpaces() {
+        assertThat(reverseWordsInString.reverseWords(" \t\t Let's take   LetItCode       contest ")).isEqualTo(" \t\t s'teL ekat   edoCtIteL       tsetnoc ");
     }
 }

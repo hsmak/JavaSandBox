@@ -99,9 +99,9 @@ class GoodStringWith5Test {
 
     @ParameterizedTest
     @EnumSource(StrategyE.class)
-    public void testMakeGoodForLeetCode(StrategyE e) {
+    public void testMakeGoodForLetItCode(StrategyE e) {
         gs.setStrategy(e);
-        assertThat(gs.makeGood("leEeetcode")).isEqualTo("leetcode");
+        assertThat(gs.makeGood("letTtitcode")).isEqualTo("letitcode");
     }
 
     @ParameterizedTest
@@ -113,7 +113,7 @@ class GoodStringWith5Test {
 
     @ParameterizedTest
     @EnumSource(StrategyE.class)
-    public void testMakeGoodForLeetCode3(StrategyE e) {
+    public void testMakeGoodForLetItCode3(StrategyE e) {
         gs.setStrategy(e);
         assertThat(gs.makeGood("RLlr")).isEqualTo("");
     }
