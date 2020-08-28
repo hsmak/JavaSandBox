@@ -33,6 +33,7 @@ public class ReverseWordsInStringTest {
     public void reverseWordsWithMultipleWhiteSpaces() {
         assertThat(reverseWordsInString.reverseWords("Let's take   LetItCode       contest")).isEqualTo("s'teL ekat   edoCtIteL       tsetnoc");
     }
+
     @Test
     public void reverseWordsWithMultipleWhiteSpacesAndTrailingSpaces() {
         assertThat(reverseWordsInString.reverseWords(" \t\t Let's take   LetItCode       contest ")).isEqualTo(" \t\t s'teL ekat   edoCtIteL       tsetnoc ");

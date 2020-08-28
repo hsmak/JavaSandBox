@@ -83,8 +83,8 @@ public class GoodStringTest {
     }
 
     @Test
-    public void testMakeGoodForLeetCode() {
-        assertThat(gs.makeGood("leEeetcode")).isEqualTo("leetcode");
+    public void testMakeGoodForLetItCode() {
+        assertThat(gs.makeGood("letTtitcode")).isEqualTo("letitcode");
     }
 
     @Test
@@ -93,7 +93,7 @@ public class GoodStringTest {
     }
 
     @Test
-    public void testMakeGoodForLeetCode3() {
+    public void testMakeGoodForLetItCode3() {
         assertThat(gs.makeGood("RLlr")).isEqualTo("");
     }
 

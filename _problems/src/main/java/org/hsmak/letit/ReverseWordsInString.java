@@ -85,18 +85,19 @@ public class ReverseWordsInString {
                 }
                 return String.valueOf(chars);
             }
+        };
 
-            private void reverseChars(char[] chars, int beginIndex, int endIndex) {
-                if (beginIndex < 0 || endIndex >= chars.length)
-                    throw new IllegalArgumentException(
-                            String.format("Index out of range -> beginIndex{%d} endIndex{%d}", beginIndex, endIndex));
+        void reverseChars(char[] chars, int beginIndex, int endIndex) {
+            if (beginIndex < 0 || endIndex >= chars.length)
+                throw new IllegalArgumentException(
+                        String.format("Index out of range -> beginIndex{%d} endIndex{%d}", beginIndex, endIndex));
 
-                for (int lower = beginIndex, upper = endIndex; lower < upper; lower++, upper--) {
-                    char temp = chars[lower];
-                    chars[lower] = chars[upper];
-                    chars[upper] = temp;
-                }
+            for (int lower = beginIndex, upper = endIndex; lower < upper; lower++, upper--) {
+                char temp = chars[lower];
+                chars[lower] = chars[upper];
+                chars[upper] = temp;
             }
         }
+
     }
 }
