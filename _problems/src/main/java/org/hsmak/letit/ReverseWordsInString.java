@@ -15,16 +15,6 @@ public class ReverseWordsInString {
     }
 
     enum StrategyE implements Function<String, String> {
-        /*DEFAULT { // Doesn't count for multiple whitespaces!!
-            @Override
-            public String apply(String s) {
-                String[] words = s.split("\\s+");
-                StringBuilder reversedWordsBuilder = new StringBuilder();
-                for (String word : words)
-                    reversedWordsBuilder.append(new StringBuilder(word).reverse()).append(" ");
-                return reversedWordsBuilder.toString().trim();
-            }
-        },*/
         PRESERVE_MULTIPLE_SPACES {
             @Override
             public String apply(String str) {
@@ -58,6 +48,7 @@ public class ReverseWordsInString {
             }
         },
         PRESERVE_MULTIPLE_SPACES_IN_PLACE { // ToDo - optimize it
+
             @Override
             public String apply(String s) {
                 char[] chars = s.toCharArray();

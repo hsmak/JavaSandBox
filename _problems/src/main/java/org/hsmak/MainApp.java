@@ -86,7 +86,6 @@ public class MainApp {
         Stream<Integer> empty1 = Stream.<Integer>empty();
         Stream.of(1, 2, 3).filter(i -> i > 4).mapToInt(i -> i).sum();
 
-        Optional.ofNullable((String) null).orElse("te");
 
 
 //        testThreading();

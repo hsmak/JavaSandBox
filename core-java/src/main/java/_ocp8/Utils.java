@@ -1,4 +1,4 @@
-package _ocp8._util;
+package _ocp8;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,16 +10,30 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Utils {
-    public static void main(String[] args) throws Throwable {
+    public static void main(String[] args) {
         String userHome = System.getProperty("user.home");
         System.out.println(userHome);
-        printSystemProperties();
+//        printSystemProperties();
 
         System.out.println(System.getProperty("user.dir"));
 
-        handleException(() -> new IllegalAccessException("For the heck of it"));
+        handleException(() -> {
+            throw new IllegalArgumentException("For the heck of it");
+        }, "msg1", null, "msg2", null);
 
 
+    }
+
+    public static void printClassNameWithStackWalker(int skip) {
+        String className = StackWalker.getInstance().walk(stream -> stream.skip(skip).findFirst()).get().getClassName();
+        System.out.println(String.format("--- Class: %s ---", className));
+        System.out.println();
+    }
+
+    public static void printMethodNameWithStackWalker(int skip) {
+        String methodName = StackWalker.getInstance().walk(stream -> stream.skip(skip).findFirst()).get().getMethodName();
+        System.out.println(String.format("--- %s() ---", methodName));
+        System.out.println();
     }
 
     public static void listFiles(String userHome) throws IOException {
@@ -41,13 +55,23 @@ public class Utils {
         return Files.deleteIfExists(Paths.get(dirname));
     }
 
-    public static <T> void handleException(Supplier<T> s, String... optionalMsgs) throws Throwable {
+    public static <T> void handleException(Supplier<T> s, String... optionalMsgs) {
         try {
             s.get();
         } catch (Throwable t) {
             System.err.println(t);
             if (optionalMsgs.length != 0) {
-                String joinedMsgs = Stream.of(optionalMsgs).map(i -> Optional.ofNullable(i)).filter(i -> !i.isEmpty()).map(Optional::get).collect(Collectors.joining(" | "));
+
+//                String joinedMsgs = Stream.of(optionalMsgs).map(i -> Optional.ofNullable(i)).filter(i -> !i.isEmpty()).map(Optional::get).collect(Collectors.joining(" | "));
+
+                /*
+                 * In Java,
+                 *      - Optional is a MONAD!! Just as a Stream is a MONAD!!
+                 *      - It has flatMap(); which will filter out the empty Optionals automatically
+                 *      - Because Monads have the identity
+                 *      - Optional.empty is the identity for the Optional Monad
+                 */
+                String joinedMsgs = Stream.of(optionalMsgs).map(i -> Optional.ofNullable(i)).flatMap(Optional::stream).collect(Collectors.joining(" | "));
                 System.err.println(joinedMsgs);
 
                 /*

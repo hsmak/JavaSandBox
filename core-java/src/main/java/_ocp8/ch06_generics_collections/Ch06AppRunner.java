@@ -1,7 +1,7 @@
 package _ocp8.ch06_generics_collections;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import _ocp8._util.Utils;
+import _ocp8.Utils;
 
 import java.io.*;
 import java.util.*;
@@ -9,6 +9,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+
+import static _ocp8.Utils.*;
 
 /**
  * The Contract when overriding equal() and hasCode():
@@ -292,7 +294,7 @@ class BackedCollectionRunner {
         System.out.println("--- Adding an out-of-range element to the strSubTM ---");
 
         System.out.print("strSubTM.put(\"z\", \"zoo\"): ");
-        Utils.handleException(() -> strSubTM.put("z", "zoo"), "Pay attention to the range when you created a SubTree via -> strTM.subMap(\"a\", \"c\")");
+        handleException(() -> strSubTM.put("z", "zoo"), "Pay attention to the range when you created a SubTree via -> strTM.subMap(\"a\", \"c\")");
 
 
     }
