@@ -96,28 +96,28 @@ public class ReverseWordsInString {
                 }
 
                 StringBuilder sb = new StringBuilder();
-                char[] words = s.toCharArray();
+                char[] chars = s.toCharArray();
 
-                for (int i = 0; i < words.length; i++) {
-                    if (words[i] == ' ') {
+                for (int i = 0; i < chars.length; i++) {
+                    if (Character.isWhitespace(chars[i])) {
                         continue;
                     }
                     int j = i;
-                    while (j < words.length && words[j] != ' ') {
+                    while (j < chars.length && !Character.isWhitespace(chars[j])) {
                         j++;
                     }
-                    reverse(words, i, j - 1);
+                    reverse(chars, i, j - 1);
                     i = j;
                 }
 
-                return sb.append(words).toString();
+                return sb.append(chars).toString();
             }
 
-            private void reverse(char[] s, int i, int j) {
+            private void reverse(char[] chars, int i, int j) {
                 while (i < j) {
-                    char tmp = s[i];
-                    s[i] = s[j];
-                    s[j] = tmp;
+                    char tmp = chars[i];
+                    chars[i] = chars[j];
+                    chars[j] = tmp;
                     i++;
                     j--;
                 }
@@ -133,11 +133,11 @@ public class ReverseWordsInString {
                 int j = 0;
                 while (j < chars.length) {
                     int i = j;
-                    while (j < chars.length && chars[j] != ' ') {
+                    while (j < chars.length && !Character.isWhitespace(chars[j])) {
                         j++;
                     }
                     reverse(chars, i, j - 1);
-                    while (j < chars.length && chars[j] == ' ') {
+                    while (j < chars.length && Character.isWhitespace(chars[j])) {
                         j++;
                     }
                 }
@@ -146,9 +146,9 @@ public class ReverseWordsInString {
 
             private void reverse(char[] chars, int i, int j) {
                 while (i < j) {
-                    char tem = chars[i];
+                    char tmp = chars[i];
                     chars[i++] = chars[j];
-                    chars[j--] = tem;
+                    chars[j--] = tmp;
                 }
             }
         }
