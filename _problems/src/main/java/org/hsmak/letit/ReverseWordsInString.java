@@ -32,7 +32,7 @@ public class ReverseWordsInString {
                             else
                                 break;
                         }
-                    } else {
+                    } else { // may use a StringBuilder to accumulate and reverse non-space chars
                         StringBuilder reversedBuilder = new StringBuilder();
                         reversedBuilder.append(chars[i]);
                         while (++i < chars.length) {
@@ -47,8 +47,7 @@ public class ReverseWordsInString {
                 return sb.toString();
             }
         },
-        PRESERVE_MULTIPLE_SPACES_IN_PLACE { // ToDo - optimize it
-
+        PRESERVE_MULTIPLE_SPACES_IN_PLACE {
             @Override
             public String apply(String s) {
                 char[] chars = s.toCharArray();
@@ -62,7 +61,7 @@ public class ReverseWordsInString {
                             else
                                 break;
                         }
-                    } else {
+                    } else { // Alternative to StringBuilder, preserve the index of the first occurrence of non-space char
                         int nonSpaceIndex = i;
                         while (++i < chars.length) {
                             if (!Character.isWhitespace(chars[i]))
@@ -76,16 +75,24 @@ public class ReverseWordsInString {
                 return String.valueOf(chars);
             }
 
-            private void reverseChars(char[] chars, int beginIndex, int endIndex) {
-                if (beginIndex < 0 || endIndex >= chars.length)
-                    throw new IllegalArgumentException(
-                            String.format("Index out of range -> beginIndex{%d} endIndex{%d}", beginIndex, endIndex));
+        },
+        PRESERVE_MULTIPLE_SPACES_IN_PLACE_2 {
+            @Override
+            public String apply(String s) {
+                char[] chars = s.toCharArray();
+//                int i = 0;
 
-                for (int lower = beginIndex, upper = endIndex; lower < upper; lower++, upper--) {
-                    char temp = chars[lower];
-                    chars[lower] = chars[upper];
-                    chars[upper] = temp;
+                for (int i = 0; i < chars.length; i++) {
+                    if (Character.isWhitespace(chars[i])) {
+                        continue;
+                    }
+                    int nonSpaceIndex = i;
+                    while (i < chars.length && !Character.isWhitespace(chars[i])) {
+                        i++;
+                    }
+                    reverseChars(chars, nonSpaceIndex, i - 1);
                 }
+                return String.valueOf(chars);
             }
         },
         STRATEGY_01 {
@@ -106,21 +113,11 @@ public class ReverseWordsInString {
                     while (j < chars.length && !Character.isWhitespace(chars[j])) {
                         j++;
                     }
-                    reverse(chars, i, j - 1);
+                    reverseChars(chars, i, j - 1);
                     i = j;
                 }
 
                 return sb.append(chars).toString();
-            }
-
-            private void reverse(char[] chars, int i, int j) {
-                while (i < j) {
-                    char tmp = chars[i];
-                    chars[i] = chars[j];
-                    chars[j] = tmp;
-                    i++;
-                    j--;
-                }
             }
         },
         STRATEGY_02 {
@@ -136,21 +133,34 @@ public class ReverseWordsInString {
                     while (j < chars.length && !Character.isWhitespace(chars[j])) {
                         j++;
                     }
-                    reverse(chars, i, j - 1);
+                    reverseChars(chars, i, j - 1);
                     while (j < chars.length && Character.isWhitespace(chars[j])) {
                         j++;
                     }
                 }
                 return new String(chars);
             }
+        }; // End of Enums
 
-            private void reverse(char[] chars, int i, int j) {
-                while (i < j) {
-                    char tmp = chars[i];
-                    chars[i++] = chars[j];
-                    chars[j--] = tmp;
-                }
+        /**
+         * Common method used in some of the Enums
+         *
+         * @param chars
+         * @param beginIndex
+         * @param endIndex
+         */
+        protected void reverseChars(char[] chars, int beginIndex, int endIndex) {
+            if (beginIndex < 0 || endIndex >= chars.length)
+                throw new IllegalArgumentException(
+                        String.format("Index out of range -> beginIndex{%d} endIndex{%d}", beginIndex, endIndex));
+
+            for (int lower = beginIndex, upper = endIndex; lower < upper; lower++, upper--) {
+                char tmp = chars[lower];
+                chars[lower] = chars[upper];
+                chars[upper] = tmp;
             }
         }
     }
+
+
 }
