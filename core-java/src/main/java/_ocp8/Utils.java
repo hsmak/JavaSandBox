@@ -24,16 +24,15 @@ public class Utils {
 
     }
 
-    public static void printClassNameWithStackWalker(int skip) {
+    public static void printClassNameViaStackWalker(int skip) {
         String className = StackWalker.getInstance().walk(stream -> stream.skip(skip).findFirst()).get().getClassName();
         System.out.println(String.format("--- Class: %s ---", className));
         System.out.println();
     }
 
-    public static void printMethodNameWithStackWalker(int skip) {
+    public static void printMethodNameViaStackWalker(int skip) {
         String methodName = StackWalker.getInstance().walk(stream -> stream.skip(skip).findFirst()).get().getMethodName();
         System.out.println(String.format("--- %s() ---", methodName));
-        System.out.println();
     }
 
     public static void listFiles(String userHome) throws IOException {
