@@ -3,7 +3,12 @@ package org.hsmak.letit;
 import java.util.function.IntFunction;
 
 /*
- * Refresher on radix r Complement: https://www.youtube.com/watch?v=ldFofOqKcPs
+ * Refresher on radix r Complement:
+ *  - https://www.youtube.com/watch?v=ldFofOqKcPs
+ *  - https://www.youtube.com/watch?v=LP5of3ODA3I
+ *
+ * Refresher on Number Systems:
+ *  - https://learning.oreilly.com/library/view/digital-logic-design/9780750645829/xhtml/B9780750645829500020.htm#cesectitle8
  */
 public class BitwiseComplement {
 
