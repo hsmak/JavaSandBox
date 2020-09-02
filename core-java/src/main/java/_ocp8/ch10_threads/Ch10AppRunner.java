@@ -1,6 +1,8 @@
 package _ocp8.ch10_threads;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static _ocp8.Utils.printClassNameViaStackWalker;
 import static _ocp8.Utils.printMethodNameViaStackWalker;
@@ -87,9 +89,21 @@ class CreatingThreads {
     }
 }
 
-class ThreadStatesAndLifeCycle {
+class ThreadStatesPrioritiesAndLifeCycle {
     public static void main(String[] args) {
         printClassNameViaStackWalker(1);
-        Arrays.stream(Thread.State.values()).forEach(System.out::println);
+
+        String states = Arrays.stream(Thread.State.values()).map(Enum::name).collect(Collectors.joining(" | "));
+        System.out.println(states);
+        System.out.println();
+
+        String priorities = Stream.of(
+                Thread.MIN_PRIORITY,
+                Thread.NORM_PRIORITY,
+                Thread.MAX_PRIORITY)
+                .map(String::valueOf)
+                .collect(Collectors.joining(" | "));
+        System.out.println(priorities);
+        System.out.println();
     }
 }
