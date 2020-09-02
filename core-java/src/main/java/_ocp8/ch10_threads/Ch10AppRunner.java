@@ -1,6 +1,11 @@
 package _ocp8.ch10_threads;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -105,5 +110,104 @@ class ThreadStatesPrioritiesAndLifeCycle {
                 .collect(Collectors.joining(" | "));
         System.out.println(priorities);
         System.out.println();
+    }
+}
+
+class Synchronization {
+
+    Lock lock = new ReentrantLock();
+
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+    }
+
+    synchronized public static void synchronizeStaticMethod() {
+        printMethodNameViaStackWalker(1);
+    }
+
+    public static void synchronizeStaticBlock() {
+
+        synchronized (Synchronization.class) {
+            printMethodNameViaStackWalker(1);
+            synchronized (Synchronization.class) { // unnecessary but possible. It does makes sense to synchronize on another Class level lock
+            }
+        }
+        synchronized (MyInterfaceLock.class) { //ToDo - Will this affect classes implementing this interface? Most likely NO!
+        }
+        synchronized (MyClassLock.class) {
+        }
+    }
+
+    synchronized public void synchronizeInstanceMethod() {
+        printMethodNameViaStackWalker(1);
+    }
+
+    public void synchronizeInstanceBlock() {
+        synchronized (this) {
+            printMethodNameViaStackWalker(1);
+            synchronized (this) { // unnecessary but possible. It does makes sense to synchronize on another Object level lock
+
+            }
+            synchronized (lock) { // This means this method is synchronizing on two locks
+
+            }
+        }
+        synchronized (this) {
+
+        }
+    }
+
+    interface MyInterfaceLock {
+    }
+
+    class MyClassImpMyI implements MyInterfaceLock {
+    }
+
+    class MyClassLock {
+    }
+}
+
+class StaticAndNonStaticMethodsAccessingSameField { // They will not block each other!!!
+
+}
+
+class LockingMechanisms {
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+    }
+}
+
+class DeadlocksLivelocksStarvationRaceConditions {
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+    }
+}
+
+class AtomicsAndVolatile {
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+    }
+}
+
+/*
+ * Links:
+ *  - https://docs.oracle.com/javase/specs/jls/se11/html/jls-17.html#jls-17.4.5[Java 11's Language Specification]
+ *  - https://medium.com/@kasunpdh/handling-java-memory-consistency-with-happens-before-relationship-95ddc837ab13[Handling Java Memory Consistency with happens-before relationship]
+ *  - https://javarevisited.blogspot.com/2020/01/what-is-happens-before-in-java-concurrency.html[What is happens-before in Java Concurrency?]
+ */
+class HappensBeforeRelationship {
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+    }
+}
+
+/*
+ * Still you can't solely rely on Synchronized Collections if there are other ops that need to act as a whole unit around synchronized individual Collection's methods.
+ */
+class SynchronizedList {
+    public static void main(String[] args) {
+        printClassNameViaStackWalker(1);
+        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<Integer>());
+        synchronizedList.addAll(Arrays.asList(1, 2, 3, 4));
     }
 }
