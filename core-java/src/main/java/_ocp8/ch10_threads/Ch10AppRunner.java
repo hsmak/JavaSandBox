@@ -366,19 +366,6 @@ class ThreadCommunication {
     }
 }
 
-class GranularLockingMechanisms {
-    public static void main(String[] args) {
-        printClassNameViaStackWalker(1);
-    }
-}
-
-
-class AtomicsAndVolatile {
-    public static void main(String[] args) {
-        printClassNameViaStackWalker(1);
-    }
-}
-
 // Synchronized + Volatile
 class SingletonInstance {
 
@@ -393,16 +380,5 @@ class SingletonInstance {
 class HappensBeforeRelationship {
     public static void main(String[] args) {
         printClassNameViaStackWalker(1);
-    }
-}
-
-/*
- * Still you can't solely rely on Synchronized Collections if there are other ops that need to act as a whole unit around synchronized individual Collection's methods.
- */
-class SynchronizedList {
-    public static void main(String[] args) {
-        printClassNameViaStackWalker(1);
-        List<Integer> synchronizedList = Collections.synchronizedList(new ArrayList<Integer>());
-        synchronizedList.addAll(Arrays.asList(1, 2, 3, 4));
     }
 }

@@ -30,10 +30,12 @@ public class Processor implements Runnable {
                 list.add(random.nextInt(100));
             }
 
-            System.out.println(Thread.currentThread().getName() +
-                    " waiting at barrier");
+            System.out.println(String.format("%s waiting at barrier", Thread.currentThread().getName()));
 
-            barrier.await();
+            barrier.await(); // Waiting at the barrier
+
+            // The below will continue executing after the Barrier's Runnable finishes running
+            System.out.println(String.format("%s continues after Barrier's Runnable finishes running!", Thread.currentThread().getName()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -50,11 +52,12 @@ public class Processor implements Runnable {
 class CyclicBarrierRunnerApp {
     public static void main(String[] args) throws InterruptedException {
 
-        //this thread will be run after the other threads hit the barrier as many as indicated by count
+        // This thread will be run after the other threads hit the barrier as many as indicated by count;
+        // i.e. will be executed last, however, any work left after "barrier.await()"
         CyclicBarrier barrier = new CyclicBarrier(2, new Runnable() {
             @Override
             public void run() {
-                System.out.println("BarrierAction executed");
+                System.out.println(String.format("%s: BarrierAction executed", Thread.currentThread().getName()));
             }
         });
 
