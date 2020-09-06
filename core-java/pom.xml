@@ -33,12 +33,10 @@
         <dependency>
             <groupId>com.google.code.tempus-fugit</groupId>
             <artifactId>tempus-fugit</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!--Spring-->
