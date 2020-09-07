@@ -12,7 +12,6 @@
 
     <modules>
         <module>_problems</module>
-        <module>abstractions</module>
         <module>core-java</module>
         <module>datastructures-algorithms</module>
     </modules>
