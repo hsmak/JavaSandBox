@@ -23,7 +23,7 @@ class MethodLocalInnerClassExample {
 
             @Override
             public String toString(){
-                return "This is the overriden toString() method from a Method-Local Inner Class";
+                return "This is the overridden toString() method from a Method-Local Inner Class";
             }
 
         }

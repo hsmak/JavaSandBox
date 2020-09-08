@@ -14,8 +14,8 @@ public class AnonymousInnerClassExample {
         AnonymousInnerClassExample a = new AnonymousInnerClassExample() {//this is an anonymous inner class
 
             /**
-             * This is the Overriden method
-             * Because of polymorphism, only overriden methods can be invoked
+             * This is the Overridden method
+             * Because of polymorphism, only overridden methods can be invoked
              */
             @Override
             public void outerMethod() {
@@ -39,6 +39,6 @@ public class AnonymousInnerClassExample {
     }
 
     public void outerMethod() {
-        System.out.println("This method will be overriden by the Anonymous Inner Class");
+        System.out.println("This method will be overridden by the Anonymous Inner Class");
     }
 }

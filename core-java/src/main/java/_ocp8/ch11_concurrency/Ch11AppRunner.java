@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static _ocp8.Utils.printClassNameViaStackWalker;
 import static _ocp8.Utils.printMethodNameViaStackWalker;
@@ -350,10 +352,11 @@ class ExecutorServiceRunner {
  *          - Let the CurrentThread join forked task.
  *      - Work Stealing
  */
+
 /**
  * Refer to examples at:
- *      {@link concurrency.ch01.forkjoins.RecursiveActionArrayInitializerTask}
- *      {@link concurrency.ch01.forkjoins.RecursiveTaskFindMaxPositionTask}
+ * {@link concurrency.ch01.forkjoins.RecursiveActionArrayInitializerTask}
+ * {@link concurrency.ch01.forkjoins.RecursiveTaskFindMaxPositionTask}
  */
 class ForkJoinFramework {
     public static void main(String[] args) {
@@ -368,4 +371,158 @@ class ForkJoinFramework {
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         System.out.println(availableProcessors);
     }
+}
+
+/*
+ * - ParallelStreams make use of the ForkJoinFramework under the hood.
+ * - Nature of problems that can be solved with parallelStreams:
+ *      - Stateless
+ *      - Associative
+ *      - Unordered
+ */
+class ParallelStreams {
+    private static List<Integer> INTS = IntStream.range(1, 10).boxed().collect(Collectors.toList());
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+        printClassNameViaStackWalker(1);
+
+        parallelStreamViaDefaultForkjoinPool();
+        parallelStreamViaCustomForkJoinPool();
+        parallelStreamViaCombined_parallelStream();
+
+        isStreamParallel();
+        convertParallelStreamBackToSequential();
+
+        threadUnsafeStatefulParallelStream();
+
+        isStreamOrderedViaSpliteratorCharacteristics();
+
+        efficientParallelStreamReduceOp();
+
+        efficientParallelStreamCollectOp();
+
+    }
+
+    /*
+     * ToDo - add a use case with Collectors.toConcurrentMap()
+     */
+    private static void efficientParallelStreamCollectOp() {
+        printMethodNameViaStackWalker(1);
+
+        List<Integer> collectedList = INTS.stream()
+                .unordered()
+                .parallel()
+                .filter(i -> i % 2 == 0)
+                .collect(Collectors.toList());
+        System.out.println(collectedList);
+    }
+
+    private static void efficientParallelStreamReduceOp() {
+        printMethodNameViaStackWalker(1);
+
+        int product = INTS.stream()
+                .unordered()
+                .parallel()
+                .reduce(1, (a1, a2) -> a1 * a2);
+        System.out.println(product);
+
+    }
+
+    private static void threadUnsafeStatefulParallelStream() {
+        printMethodNameViaStackWalker(1);
+
+        class Counter {
+            int count = 0;
+        }
+        Counter c = new Counter();
+        int sum = IntStream.range(0, 1000)
+                .parallel()
+                .filter(i -> {
+                    if (i % 10 == 0) {
+//                        synchronized (Object.class) {
+                        c.count++; // This is Thread-Unsafe!! Synchronizing this block defies the purpose of ParallelStream!!
+                        return true;
+//                        }
+                    }
+                    return false;
+                })
+                .sum();
+        System.out.println(String.format("Sum: %d, Count(inconsistent): %d", sum, c.count));
+        System.out.println();
+    }
+
+    private static void isStreamOrderedViaSpliteratorCharacteristics() {
+        printMethodNameViaStackWalker(1);
+
+        /*
+         * Surprisingly the default IntStream is actually ORDERED which means it won't be an efficient ParallelStream by default.
+         * before making a stream parallel, make it unordered first by calling "unordered()"
+         */
+        System.out.println(INTS.stream().spliterator().hasCharacteristics(Spliterator.ORDERED));
+        System.out.println(INTS.stream().unordered().spliterator().hasCharacteristics(Spliterator.ORDERED));
+        System.out.println(INTS.stream().sorted().spliterator().hasCharacteristics(Spliterator.ORDERED));
+        System.out.println();
+    }
+
+    private static void convertParallelStreamBackToSequential() {
+        printMethodNameViaStackWalker(1);
+        System.out.println(INTS.parallelStream().sequential().isParallel());
+        System.out.println();
+    }
+
+    private static void isStreamParallel() {
+        printMethodNameViaStackWalker(1);
+
+        System.out.println(INTS.stream().isParallel());
+        System.out.println(INTS.parallelStream().isParallel());
+        System.out.println();
+    }
+
+    public static void parallelStreamViaDefaultForkjoinPool() {
+        printMethodNameViaStackWalker(1);
+
+        int sum = INTS
+                .stream()
+                .parallel()
+                .peek(i -> // peek into the stream
+                        System.out.println(
+                                String.format("%d : %s", i, Thread.currentThread().getName())))
+                .mapToInt(i -> i)//unboxing
+                .sum();
+        System.out.println(String.format("Sum: %d", sum));
+        System.out.println();
+    }
+
+    public static void parallelStreamViaCustomForkJoinPool() throws ExecutionException, InterruptedException {
+        printMethodNameViaStackWalker(1);
+
+        ForkJoinPool fjp = new ForkJoinPool(2);
+        ForkJoinTask<Integer> futureInt =
+                fjp.submit(() -> // submitting a Callable<Integer>
+                        INTS.stream()
+                                .parallel()
+                                .peek(i -> // peek into the stream
+                                        System.out.println(
+                                                String.format("%d : %s", i, Thread.currentThread().getName())))
+                                .mapToInt(i -> i)//unboxing
+                                .sum());
+        int sum = futureInt.get(); // throws ExecutionException, InterruptedException
+        System.out.println(String.format("FJP with 2 thread workers, sum: %d", sum));
+        System.out.println();
+    }
+
+    public static void parallelStreamViaCombined_parallelStream() {
+        printMethodNameViaStackWalker(1);
+
+        int sum = INTS
+                .parallelStream() // instead of calling stream() then parallel()
+                .peek(i -> // peek into the stream
+                        System.out.println(
+                                String.format("%d : %s", i, Thread.currentThread().getName())))
+                .mapToInt(i -> i)//unboxing
+                .sum();
+        System.out.println(String.format("Sum: %d", sum));
+        System.out.println();
+    }
+
 }

@@ -25,7 +25,7 @@ public class ParentInsidePkg {
 class ChildInsidePkg extends ParentInsidePkg {
     @Override
     protected void protectedMethod(){
-        System.out.println("I'm an Overriden Protected Method from a Child inside a Package");
+        System.out.println("I'm an Overridden Protected Method from a Child inside a Package");
     }
 
     protected void callParentProtectedMethod(){
