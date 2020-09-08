@@ -18,6 +18,19 @@ public class RecursiveActionArrayInitializerTask extends RecursiveAction {
         this.end = end; // how large is this section?
     }
 
+    public static void main(String[] args) {
+        int[] data = new int[20_000];
+        RecursiveActionArrayInitializerTask action = new RecursiveActionArrayInitializerTask(data, 0, data.length);
+
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        forkJoinPool.invoke(action);
+
+        // invokeAll can save some typing by replacing the previous 2 lines
+        //invokeAll(action);
+
+        Arrays.stream(data).forEach(System.out::println);
+    }
+
     @Override
     protected void compute() {
         if (end - start <= THRESHOLD) { // is it a manageable amount of work?
@@ -42,19 +55,9 @@ public class RecursiveActionArrayInitializerTask extends RecursiveAction {
             RecursiveActionArrayInitializerTask a2 = new RecursiveActionArrayInitializerTask(data, halfWay, end);
             a2.compute(); // work on right half of task
             a1.join(); // wait for queued task to be complete
+
+            // This is a replacement of fork, compute, and join
+            //invokeAll(a2, a1);
         }
-    }
-
-    public static void main(String[] args) {
-        int[] data = new int[20_000];
-        RecursiveActionArrayInitializerTask action = new RecursiveActionArrayInitializerTask(data, 0, data.length);
-
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        forkJoinPool.invoke(action);
-
-        // invokeAll can save some typing by replacing the previous 2 lines
-        //invokeAll(action);
-
-        Arrays.stream(data).forEach(System.out::println);
     }
 }

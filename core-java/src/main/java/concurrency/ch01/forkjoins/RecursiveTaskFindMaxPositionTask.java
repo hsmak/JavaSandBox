@@ -17,12 +17,36 @@ public class RecursiveTaskFindMaxPositionTask extends RecursiveTask<Integer> {
         this.end = end; // how large is this section?
     }
 
+    public static void main(String[] args) {
+        /*int[] data = new int[20_000];
+
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        RecursiveActionArrayInitializerTask initArrayAction = new RecursiveActionArrayInitializerTask(data, 0, data.length);
+        forkJoinPool.invoke(initArrayAction);*/
+
+        // invokeAll can save some typing by replacing the previous 2 lines
+        //invokeAll(initArrayAction);
+        //Arrays.stream(data).forEach(System.out::println);
+
+        //**************************************//
+
+        //prepare the data
+        int[] data = IntStream.generate(() -> ThreadLocalRandom.current().nextInt(0, 90000)).limit(600_000_000).toArray();
+//        IntStream.range(0, data.length).forEach(i -> System.out.println(String.format("index %d: %d", i, data[i])));
+
+        ForkJoinPool forkJoinPool = new ForkJoinPool();
+        RecursiveTaskFindMaxPositionTask findMaxIndexTask = new RecursiveTaskFindMaxPositionTask(data, 0, data.length);
+//        invokeAll(findMaxIndexTask); // It works but useless since we're expecting a value to be returned.
+        Integer index = forkJoinPool.invoke(findMaxIndexTask);
+        System.out.println(index);
+
+    }
+
     @Override
     protected Integer compute() { // return type matches <generic> type
         if (end - start <= THRESHOLD) { // is it a manageable amount of work?
 
-            int position = 0; // if all values are equal,
-            // return position 0
+            int position = 0; // if all values are equal return position 0
 
             for (int i = start; i < end; i++) {
                 if (data[i] > data[position])
@@ -43,30 +67,5 @@ public class RecursiveTaskFindMaxPositionTask extends RecursiveTask<Integer> {
             else
                 return position2;
         }
-    }
-
-    public static void main(String[] args) {
-        /*int[] data = new int[20_000];
-
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        RecursiveActionArrayInitializerTask initArrayAction = new RecursiveActionArrayInitializerTask(data, 0, data.length);
-        forkJoinPool.invoke(initArrayAction);*/
-
-        // invokeAll can save some typing by replacing the previous 2 lines
-        //invokeAll(initArrayAction);
-        //Arrays.stream(data).forEach(System.out::println);
-
-        //**************************************//
-
-        //prepare the data
-        int[] data = IntStream.generate(() -> ThreadLocalRandom.current().nextInt(0, 9)).limit(20).toArray();
-        IntStream.range(0, data.length).forEach(i -> System.out.println(String.format("index %d: %d", i, data[i])));
-
-        ForkJoinPool forkJoinPool = new ForkJoinPool();
-        RecursiveTaskFindMaxPositionTask findMaxIndexTask = new RecursiveTaskFindMaxPositionTask(data, 0, data.length);
-//        invokeAll(findMaxIndexTask); // It works but useless since we're expecting a value to be returned.
-        Integer index = forkJoinPool.invoke(findMaxIndexTask);
-        System.out.println(index);
-
     }
 }

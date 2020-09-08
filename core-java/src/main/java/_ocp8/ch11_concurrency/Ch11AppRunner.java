@@ -36,6 +36,7 @@ class AtomicsAndVolatile {
         /*AtomicBoolean atomicBoolean = new AtomicBoolean();
         AtomicLong atomicLong = new AtomicLong();
         AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[]{1,2,3});
+        // Can we use AtomicReference to create a Singleton? Yes --> https://codereview.stackexchange.com/questions/123139/initialization-lock-for-singleton
         AtomicReference<String> stringAtomicReference = new AtomicReference<>();*/
     }
 }
@@ -210,8 +211,161 @@ class CyclicBarrierRunner {
     }
 }
 
+/*
+ * Decouple Tasks from Threads
+ */
 class ExecutorServiceRunner {
+    public static void main(String[] args) throws InterruptedException {
+        printClassNameViaStackWalker(1);
+
+        experimentWithExecutors();
+        experimentWithScheduledThreadPool();
+        submitMyCallable();
+    }
+
+    public static void experimentWithExecutors() {
+        printMethodNameViaStackWalker(1);
+        /*
+         * Create as many threads as needed and cache the idle ones.
+         * This could overload the system with nonstop thread creation if every new task is never finished.
+         * It creates a ThreadPoolExecutor of size 0 and uses "SynchronousQueue"
+         * It's preferable to always use FixedThreadPool
+         */
+        ExecutorService newCachedThreadPool = Executors.newCachedThreadPool();
+        /*
+         * It'll create as many threads as specified by the argument; ThreadPoolExecutor with size n
+         * If all threads are occupied by current tasks, new submitted tasks wil be queued in an unbounded queue "LinkedBlockingQueue" till a thread becomes free.
+         * This one is preferable to the CachedThreadPool
+         * Size can be changed
+         */
+        ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(4);
+        ThreadPoolExecutor newFixedThreadPoolCasted = (ThreadPoolExecutor) newFixedThreadPool;
+        newFixedThreadPoolCasted.setMaximumPoolSize(6); // Reset the MaximumPoolSize first or you will get IllegalArgumentException
+        newFixedThreadPoolCasted.setCorePoolSize(6);
+
+        /*
+         * This simply will create a ThreadPoolExecutor with size 1
+         * Once created, pool size can't be changed
+         * Unlike FixedThreadPool, you can't downcast to "ThreadPoolExecutor" and change the size of SingleThreadPool
+         */
+        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
+        /*ThreadPoolExecutor newSingleThreadExecutorCasted = (ThreadPoolExecutor) newSingleThreadExecutor;
+        newSingleThreadExecutorCasted.setMaximumPoolSize(6);
+        newSingleThreadExecutorCasted.setCorePoolSize(6);*/
+    }
+
+    public static void experimentWithScheduledThreadPool() throws InterruptedException {
+        printMethodNameViaStackWalker(1);
+        /*
+         * Enables tasks to be executed:
+         *  - After a delay or
+         *  - At repeating intervals
+         */
+        ScheduledExecutorService newScheduledThreadPool = Executors.newScheduledThreadPool(4);
+        ScheduledExecutorService newSingleThreadScheduledExecutor = Executors.newSingleThreadScheduledExecutor();
+
+        newScheduledThreadPool.schedule(() -> System.out.println("Scheduled - After a Delay"), 5, TimeUnit.SECONDS);
+        // Wait for 3 seconds then Execute every 1 seconds
+
+        // Delay is independent on completion of last execution
+        newScheduledThreadPool.scheduleAtFixedRate(
+                () -> System.out.println("Scheduled - Begin After a Delay - Periodically Independent on completion of last execution"),
+                3,
+                1,
+                TimeUnit.SECONDS);
+
+        // Delay is dependent on completion of last execution
+        newScheduledThreadPool.scheduleWithFixedDelay(
+                () -> System.out.println("Scheduled - Begin After a Delay - Periodically Dependent on completion of last execution"),
+                3,
+                1,
+                TimeUnit.SECONDS);
+
+
+        TimeUnit.SECONDS.sleep(10);
+        newScheduledThreadPool.shutdown();
+    }
+
+    public static void submitMyCallable() throws InterruptedException {
+        printMethodNameViaStackWalker(1);
+        /*
+         * Callable is distinct from Runnable in two ways:
+         *  - Return Results
+         *  - Throws Checked Exceptions
+         */
+        class MyCallable implements Callable<Integer> {
+            @Override
+            public Integer call() throws Exception {
+                return ThreadLocalRandom.current().nextInt(10);
+            }
+        }
+
+        ExecutorService newSingleThreadExecutor = Executors.newSingleThreadExecutor();
+        Future<Integer> future = newSingleThreadExecutor.submit(new MyCallable());
+
+        /*
+         * Two possible exceptions need to be handled:
+         *      - InterruptedException: Thrown when the thread calling the Future’s get() method is interrupted before a result can be returned
+         *      - ExecutionException: Thrown when an exception was thrown during the execution of the Callable’s call() method
+         */
+        try {
+            Integer i = future.get();
+            System.out.println(i);
+        } catch (InterruptedException | ExecutionException e) { // Pay attention to these two Exceptions
+            e.printStackTrace();
+        } finally {
+            TimeUnit.SECONDS.sleep(2);
+            newSingleThreadExecutor.shutdown();
+        }
+    }
+
+    static class MyCommandRunner implements Executor {
+        @Override
+        public void execute(Runnable command) { // Doesn't create aby thread. It's more like a CommandDelegator
+            command.run();
+        }
+    }
+
+    static class MyThreadExecutor implements Executor {
+        @Override
+        public void execute(Runnable command) { // Create a Thread per Task
+            Thread t = new Thread(command);
+            t.start();
+        }
+    }
+}
+
+/*
+ * The ForkJoinFramework is actually a specialized ExecutorService. The difference is:
+ *      - Other ExecutorServices accepts multiple "independent" tasks
+ *          - All threads share the same queue while in ForkjoinPool each thread has its own queue of tasks/subtasks
+ *      - While ForkJoinPool accepts one big task to be divided/split up into "dependent" subtasks; recursively
+ *          - It's up to the developer to decide how a task is split up into subtasks and to how many
+ *          - Considering all system resources and whether tasks are IO/ Intensive or CPU Intensive in nature
+ *      - Divide and Conquer
+ *          - Initially, one single thread is kicked off.
+ *          - This thread will split up the task into two subtasks.
+ *          - Fork the 1st one
+ *          - Compute the 2nd one
+ *          - Let the CurrentThread join forked task.
+ *      - Work Stealing
+ */
+/**
+ * Refer to examples at:
+ *      {@link concurrency.ch01.forkjoins.RecursiveActionArrayInitializerTask}
+ *      {@link concurrency.ch01.forkjoins.RecursiveTaskFindMaxPositionTask}
+ */
+class ForkJoinFramework {
     public static void main(String[] args) {
         printClassNameViaStackWalker(1);
+
+        createForkJoinPool();
+    }
+
+    public static void createForkJoinPool() {
+        printMethodNameViaStackWalker(1);
+        ForkJoinPool forkJoinPool = new ForkJoinPool(); // Default constructor will make use of "Runtime.getRuntime().availableProcessors()"
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        System.out.println(availableProcessors);
     }
 }
