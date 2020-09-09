@@ -1,7 +1,6 @@
 package _ocp8.ch06_generics_collections;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import _ocp8.Utils;
 
 import java.io.*;
 import java.util.*;
@@ -10,7 +9,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static _ocp8.Utils.*;
+import static _ocp8.Utils.handleException;
 
 /**
  * The Contract when overriding equal() and hasCode():
@@ -436,5 +435,26 @@ class GenericsRunner {
 
     }
 
+    /*
+     * - Super is used in method's arguments and variable/reference declaration
+     * - Which means <? super Type> allows to add only this Type and its subtypes; YES subtypes not super types!
+     * - The benefit lies at preventing passing a List<Cat> to a method's argument of List<Animal> then adding Dog to it.
+     *
+     */
+    public static void testSuperKeywords() {
+
+        class A {
+
+        }
+
+        class B extends A {
+
+        }
+
+        List<? super A> lll = new ArrayList<>();
+        lll.add(new B());
+        lll.add(new A());
+//        lll.add(new Object()); // Which means <? super Type> allows to add only this Type and its subtypes; YES subtypes not super types!
+    }
 
 }

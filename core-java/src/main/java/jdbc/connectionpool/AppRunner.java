@@ -1,9 +1,9 @@
-package jdbc.com.connectionpool;
+package jdbc.connectionpool;
 
-import jdbc.com.connectionpool.legacy.ConnectionPoolLegacy;
-import jdbc.com.connectionpool.legacy.RunnableConnectionLegacy;
-import jdbc.com.connectionpool.spring.ConnectionPoolSpring;
-import jdbc.com.connectionpool.spring.RunnableConnectionSpring;
+import jdbc.connectionpool.legacy.ConnectionPoolLegacy;
+import jdbc.connectionpool.legacy.RunnableConnectionLegacy;
+import jdbc.connectionpool.spring.ConnectionPoolSpring;
+import jdbc.connectionpool.spring.RunnableConnectionSpring;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

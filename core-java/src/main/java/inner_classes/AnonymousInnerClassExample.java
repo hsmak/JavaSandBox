@@ -1,6 +1,6 @@
 package inner_classes;
 
-/**
+/*
  * Created by hsmak on 3/2/15.
  *
  * Anonymous Inner Classes either:

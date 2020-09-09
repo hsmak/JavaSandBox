@@ -1,4 +1,4 @@
-package jdbc.com.connectionpool.spring;
+package jdbc.connectionpool.spring;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

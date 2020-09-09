@@ -1,13 +1,13 @@
-package jdbc.com.connectionpool.spring;
+package jdbc.connectionpool.legacy;
 
 import java.sql.Connection;
 
 
-public class RunnableConnectionSpring implements Runnable{
+public class RunnableConnectionLegacy implements Runnable{
 
-	ConnectionPoolSpring pool;
+	ConnectionPoolLegacy pool;
 	
-	public RunnableConnectionSpring(ConnectionPoolSpring pool){
+	public RunnableConnectionLegacy(ConnectionPoolLegacy pool){
 		this.pool = pool;
 	}
 	

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 /**
- * Created by u308908 on 4/16/2015.
+ * Created by ${user.name} on 4/16/2015.
  */
 public class Processor {
 

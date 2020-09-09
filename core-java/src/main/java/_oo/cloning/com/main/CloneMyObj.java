@@ -6,9 +6,6 @@ import _oo.cloning.com.clone.Person;
 
 public class CloneMyObj {
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
 
         String address1 = "10015 Lake Creek PKWY";

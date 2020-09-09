@@ -1,4 +1,4 @@
-package jdbc.com.metadata;
+package jdbc.metadata;
 
 import java.sql.*;
 

@@ -6,7 +6,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Created by u308908 on 4/16/2015.
+ * @author ${user.name}
+ * Created on 4/16/2015.
  */
 public class Processor {
 
