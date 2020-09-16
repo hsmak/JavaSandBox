@@ -2,6 +2,9 @@ package _ocp8.ch12_jdbc;
 
 import java.sql.*;
 
+import static _ocp8.Utils.printClassNameViaStackWalker;
+import static _ocp8.Utils.printMethodNameViaStackWalker;
+
 class Ch12AppRunner {
     private static final String URL_DERBY = "jdbc:derby:memory:test_db;create=true";
 
@@ -16,9 +19,29 @@ class Ch12AppRunner {
     }
 
     public static void main(String[] args) throws SQLException {
+        printClassNameViaStackWalker(1);
+
+        Connection c = DriverManager.getConnection(URL_DERBY);
+        Statement s = c.createStatement();
 
         Connection connection = DriverManager.getConnection(URL_DERBY);
         Statement statement = connection.createStatement();
+
+        /*
+         * Return boolean when not sure what the result will be
+         *      - True if returns ResultSet
+         *      - False otherwise
+         *  - Use getResultSet() to retrieve ResultSet if True
+         *  - use getUpdateCount() to retrieve rows affected if False
+         *
+         * Table-Specific:(CREATE TABLE | DROP TABLE) Query-Specific:(INSERT | UPDATE | DELETE)         *
+         */
+        /*statement.execute();
+        statement.executeQuery();   // return ResultSet Query-Specific:(SELECT)
+        statement.executeUpdate();  // return int <- # of rows affected Table-Specific:(CREATE TABLE | DROP TABLE) Query-Specific:(INSERT | UPDATE | DELETE)
+        statement.executeBatch();
+        statement.executeLargeBatch();*/
+
         statement.execute(
                 "CREATE TABLE table_tb " +
                         "    (id INT PRIMARY KEY, " +
@@ -35,12 +58,29 @@ class Ch12AppRunner {
         }
     }
 
-    public static void connectToRDBMS() {
+    public static void establishConnectionViaDriverManager() {
+        printMethodNameViaStackWalker(1);
+    }
 
+    /*
+     * This is typically used within a Java/Jee Middleware/Container
+     * DataSource is obtained via JNDI lookup
+     */
+    public static void establishConnectionViaDataSource() {
+        printMethodNameViaStackWalker(1);
     }
 
     public static void createStatements() {
+        printMethodNameViaStackWalker(1);
 
+    }
+
+    public static void PrepareStatements() {
+        printMethodNameViaStackWalker(1);
+    }
+
+    public static void prepareCalls() {
+        printMethodNameViaStackWalker(1);
     }
 
 }
