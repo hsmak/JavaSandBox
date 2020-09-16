@@ -1,6 +1,12 @@
 package _ocp8.ch12_jdbc;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static _ocp8.Utils.printClassNameViaStackWalker;
 import static _ocp8.Utils.printMethodNameViaStackWalker;
@@ -8,24 +14,59 @@ import static _ocp8.Utils.printMethodNameViaStackWalker;
 class Ch12AppRunner {
     private static final String URL_DERBY = "jdbc:derby:memory:test_db;create=true";
 
-    /*
-     * ToDo: Prepare a DB:
-     *  - Create db.sql file
-     *  - Load it
-     *  - Test it
-     */
     static {
+        printMethodNameViaStackWalker(1);
+        try {
+            Connection connection = DriverManager.getConnection(URL_DERBY);
+            Statement statement = connection.createStatement();
 
+            Logger logger = Logger.getAnonymousLogger();
+            logger.setLevel(Level.OFF);
+            loadAndRunScript("_data/sql/create.sql", statement, logger);
+            loadAndRunScript("_data/sql/data.sql", statement, logger);
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM books " +
+                    "WHERE book_id=909");
+            while (rs.next()) {
+                System.out.println(String.format("book_id:%d title:%s", rs.getInt("book_id"), rs.getString("title")));
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadAndRunScript(String resourcePath, Statement stmt, Logger logger) throws SQLException, IOException {
+
+        String sqlCreate = ClassLoader.getSystemResource(resourcePath).getFile();
+        logger.log(Level.INFO, sqlCreate);
+        BufferedReader bufferedReader = Files.newBufferedReader(Paths.get(sqlCreate));
+
+        String line = "";
+        StringBuilder allScripts = new StringBuilder();
+        while ((line = bufferedReader.readLine()) != null) {
+            if (line.startsWith("--"))
+                continue;
+            allScripts.append(line);
+        }
+
+        String[] splitScript = allScripts.toString().split(";");
+        for (String sss : splitScript) {
+            logger.log(Level.INFO, sss);
+            stmt.execute(sss);
+        }
     }
 
     public static void main(String[] args) throws SQLException {
         printClassNameViaStackWalker(1);
 
-        Connection c = DriverManager.getConnection(URL_DERBY);
-        Statement s = c.createStatement();
-
         Connection connection = DriverManager.getConnection(URL_DERBY);
         Statement statement = connection.createStatement();
+
+        ResultSet rs = statement.executeQuery("SELECT * FROM books " +
+                "WHERE book_id=909");
+        while (rs.next()) {
+            System.out.println(String.format("book_id:%d title:%s", rs.getInt("book_id"), rs.getString("title")));
+        }
 
         /*
          * Return boolean when not sure what the result will be
@@ -42,20 +83,6 @@ class Ch12AppRunner {
         statement.executeBatch();
         statement.executeLargeBatch();*/
 
-        statement.execute(
-                "CREATE TABLE table_tb " +
-                        "    (id INT PRIMARY KEY, " +
-                        "    name VARCHAR(12))");
-        statement.execute("INSERT INTO table_tb VALUES " +
-                "(10,'TEN')," +
-                "(20,'TWENTY')," +
-                "(30,'THIRTY')");
-
-        ResultSet rs = statement.executeQuery("SELECT * FROM table_tb " +
-                "WHERE id=20");
-        while (rs.next()) {
-            System.out.println(String.format("ResultSet's Row: ID:%d Name:%s", rs.getInt("id"), rs.getString("name")));
-        }
     }
 
     public static void establishConnectionViaDriverManager() {
@@ -75,11 +102,15 @@ class Ch12AppRunner {
 
     }
 
-    public static void PrepareStatements() {
+    public static void createPreparedStatements() {
         printMethodNameViaStackWalker(1);
     }
 
-    public static void prepareCalls() {
+    public static void createCallableStatements() {
+        printMethodNameViaStackWalker(1);
+    }
+
+    public static void fetchingResultSet() {
         printMethodNameViaStackWalker(1);
     }
 
