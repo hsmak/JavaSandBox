@@ -12,12 +12,10 @@ import static _ocp8.Utils.printClassNameViaStackWalker;
 import static _ocp8.Utils.printMethodNameViaStackWalker;
 
 class Ch12AppRunner {
-    private static final String URL_DERBY = "jdbc:derby:memory:test_db;create=true";
-
     static {
         printMethodNameViaStackWalker(1);
         try {
-            Connection connection = DriverManager.getConnection(URL_DERBY);
+            Connection connection = DerbyDB.getConnection();
             Statement statement = connection.createStatement();
 
             Logger logger = Logger.getAnonymousLogger();
@@ -59,7 +57,7 @@ class Ch12AppRunner {
     public static void main(String[] args) throws SQLException {
         printClassNameViaStackWalker(1);
 
-        Connection connection = DriverManager.getConnection(URL_DERBY);
+        Connection connection = DerbyDB.getConnection();
         Statement statement = connection.createStatement();
 
         ResultSet rs = statement.executeQuery("SELECT * FROM books " +
@@ -110,8 +108,64 @@ class Ch12AppRunner {
         printMethodNameViaStackWalker(1);
     }
 
+    /*
+     * MetaData
+     * Navigation
+     * CRUD
+     */
     public static void fetchingResultSet() {
         printMethodNameViaStackWalker(1);
     }
 
+    public static void printReportViaResultSetMetaData() throws SQLException {
+        printMethodNameViaStackWalker(1);
+
+        Connection connection = DerbyDB.getConnection();
+        Statement statement = connection.createStatement();
+
+        ResultSet rs = statement.executeQuery(
+                "SELECT * FROM books " +
+                        "WHERE book_id=909");
+
+        ResultSetMetaData rsMetaData = rs.getMetaData();
+        System.out.println(rsMetaData.getColumnCount());
+        System.out.println(rsMetaData.getColumnClassName(1));
+
+        // useful when the query is a join of two or more tables and we need to know which table a column came from
+        System.out.println(rsMetaData.getTableName(1));
+    }
+
+    /**
+     *  Refer to {@link jdbc.metadata.CursorScrollableUpdatable}
+     * @throws SQLException
+     */
+    public static void fetchingResultSetWithSpecificCursor() throws SQLException {
+        printMethodNameViaStackWalker(1);
+
+        DerbyDB.getConnection().createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+    }
+
+    public static void countRowsInResultSet() throws SQLException {
+        printMethodNameViaStackWalker(1);
+
+        Statement statement = DerbyDB.getConnection().createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE);
+        ResultSet rs = statement.executeQuery("");
+        if(rs.last()){ // move cursor to the very last row
+            int rowNum = rs.getRow(); // get the row number
+            rs.beforeFirst(); // move cursor back to its original position before the 1st row
+        }
+    }
+
+    private static class DerbyDB { // ToDo - Change from in-memory to a File
+        private static final String URL_DERBY = "jdbc:derby:memory:bookdb;create=true";
+
+        public static Connection getConnection() throws SQLException {
+            return DriverManager.getConnection(URL_DERBY);
+        }
+
+    }
 }
