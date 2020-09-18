@@ -58,11 +58,14 @@ class JDBCTesting {
     public static void main(String[] args) throws SQLException {
         printClassNameViaStackWalker(1);
 
+        metadataViaDatabaseMetaData();
+        metadataViaResultSetMetaData();
+
         establishConnectionViaDriverManager();
         establishConnectionViaDataSource();
         countRowsInResultSet();
 
-        queryViaGenericStatement();
+        queryViaGeneralPurposeStatement();
         queryViaPreparedStatement();
 
         movingAroundViaCursor();
@@ -123,7 +126,7 @@ class JDBCTesting {
         System.out.println();
     }
 
-    public static void queryViaGenericStatement() throws SQLException {
+    public static void queryViaGeneralPurposeStatement() throws SQLException {
         printMethodNameViaStackWalker(1);
 
         Connection connection = DerbyDB.getConnectionViaDriverManager();
@@ -167,38 +170,49 @@ class JDBCTesting {
         printMethodNameViaStackWalker(1);
     }
 
-    /*
-     * MetaData
-     * Navigation
-     * CRUD
-     */
     public static void movingAroundViaCursor() throws SQLException {
         printMethodNameViaStackWalker(1);
 
         Connection connection = DerbyDB.getConnectionViaDriverManager();
-        Statement statement = connection.createStatement(
+        Statement statement = connection.createStatement( // Must change the scroll type and specify the concurrency leve
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
 
-        ResultSet rs = statement.executeQuery(
-                "SELECT * FROM books");
+        ResultSet rs = statement.executeQuery("SELECT * FROM books");
+
         rs.last();
         System.out.println(rs.getRow());
+
         rs.absolute(10);
         System.out.println(rs.getRow());
+
         rs.absolute(-1); // last row
         System.out.println(rs.getRow());
+
         rs.last();
         System.out.println(rs.getRow());
+
         rs.relative(-5); // move back 5 rows relative to current
         System.out.println(rs.getRow());
+
         rs.relative(0); // cursor remains where it is
         System.out.println(rs.getRow());
 
-
     }
 
-    public static void printReportViaResultSetMetaData() throws SQLException {
+    public static void metadataViaDatabaseMetaData() throws SQLException {
+
+        printMethodNameViaStackWalker(1);
+
+        Connection connection = DerbyDB.getConnectionViaDriverManager();
+        DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+        System.out.println(databaseMetaData.getDriverName());
+        System.out.println(databaseMetaData.getDefaultTransactionIsolation());
+
+        System.out.println();
+    }
+    public static void metadataViaResultSetMetaData() throws SQLException {
         printMethodNameViaStackWalker(1);
 
         Connection connection = DerbyDB.getConnectionViaDriverManager();
@@ -214,6 +228,7 @@ class JDBCTesting {
 
         // useful when the query is a join of two or more tables and we need to know which table a column came from
         System.out.println(rsMetaData.getTableName(1));
+        System.out.println();
     }
 
     /**
@@ -235,12 +250,24 @@ class JDBCTesting {
         Statement statement = DerbyDB.getConnectionViaDriverManager().createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_READ_ONLY);
+
         ResultSet rs = statement.executeQuery("SELECT * FROM books");
+
         if (rs.last()) { // move cursor to the very last row
             int rowNum = rs.getRow(); // get the row number
             System.out.println(String.format("Table Books has {%d} rows", rowNum));
             rs.beforeFirst(); // move cursor back to its original position before the 1st row
         }
+        System.out.println();
+
+        System.out.println("-- Alternatively, you can query the count via aggregate function: " +
+                "'SELECT COUNT(*) AS C FROM books' ");
+        ResultSet rs2 = statement.executeQuery("SELECT COUNT(*) as C FROM books");
+        if (rs2.next())
+            System.out.println(String.format("Table Books has {%d} rows", rs2.getInt("C")));
+
+        System.out.println();
+
     }
 
     public static void updateResultSet() throws SQLException {
