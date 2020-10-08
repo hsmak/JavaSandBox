@@ -454,7 +454,7 @@ class GenericsRunner {
         List<? super A> lll = new ArrayList<>();
         lll.add(new B());
         lll.add(new A());
-//        lll.add(new Object()); // Which means <? super Type> allows to add only this Type and its subtypes; YES subtypes not super types!
+//        lll.add(new Object()); // Which means <? super Type> allows to "add" only this Type and its subtypes; YES subtypes not super types!
     }
 
 }
