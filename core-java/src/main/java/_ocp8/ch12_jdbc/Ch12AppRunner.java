@@ -212,6 +212,7 @@ class JDBCTesting {
 
         System.out.println();
     }
+
     public static void metadataViaResultSetMetaData() throws SQLException {
         printMethodNameViaStackWalker(1);
 
@@ -293,6 +294,7 @@ class JDBCTesting {
         if (rs2.next()) {
             System.out.println(rs2.toString());
         }
+
     }
 
 
@@ -348,4 +350,31 @@ class DerbyDB {
         return dataSource.getConnection();
     }
 
+}
+
+class A{
+    void printMe(){
+        System.out.println("A");
+    }
+}
+class B extends A{
+    @Override
+    void printMe() {
+        System.out.println("B");
+    }
+}
+
+class C extends B{
+    @Override
+    void printMe() {
+        System.out.println("C");
+    }
+}
+
+class TT{
+    public static void main(String[] args) {
+        A a = new C();
+        B b = (B)a;
+        b.printMe();
+    }
 }

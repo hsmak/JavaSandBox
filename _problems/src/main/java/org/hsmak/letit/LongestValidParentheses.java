@@ -15,7 +15,7 @@ public class LongestValidParentheses {
     }
 
     enum StrategyE implements Function<String, Integer> {
-        DEFAULT { // ToDo - still needs fixing
+        /*DEFAULT { // ToDo - still needs fixing
 
             @Override
             public Integer apply(String str) {
@@ -30,7 +30,7 @@ public class LongestValidParentheses {
 
                         stack.push(chars[i]);
 
-                    } else {//ToDo - while loop on stack + 
+                    } else {//ToDo - while loop on stack +
 
                         if (!stack.isEmpty()) {
                             stack.pop();
@@ -41,7 +41,7 @@ public class LongestValidParentheses {
                 }
                 return maxCount;
             }
-        },
+        },*/
         S1 {
             @Override
             public Integer apply(String s) {
