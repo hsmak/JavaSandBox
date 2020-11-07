@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Utils {
@@ -22,6 +24,13 @@ public class Utils {
         }, "msg1", null, "msg2", null);
 
 
+    }
+
+    public static Stream<String> getSlidingStream(char[] chars, int size, int step) {
+        return IntStream.range(0, chars.length / step)
+                .map(z -> z * step)
+                .mapToObj(z -> Arrays.copyOfRange(chars, z, Math.min(z + size, chars.length)))
+                .map(cc -> String.valueOf(cc));
     }
 
     public static void printClassNameViaStackWalker(int skip) {
