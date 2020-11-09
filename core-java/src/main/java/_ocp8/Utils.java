@@ -27,7 +27,7 @@ public class Utils {
     }
 
     public static Stream<String> getSlidingStream(char[] chars, int size, int step) {
-        return IntStream.range(0, chars.length / step)
+        return IntStream.range(0, (int) Math.ceil(chars.length / (double)step))
                 .map(z -> z * step)
                 .mapToObj(z -> Arrays.copyOfRange(chars, z, Math.min(z + size, chars.length)))
                 .map(cc -> String.valueOf(cc));
