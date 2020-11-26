@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 public class RunningSum {
     Function<int[], int[]> strategy;
@@ -17,26 +16,28 @@ public class RunningSum {
         this.strategy = strategy;
     }
 
-    public static void main(String[] args) {
-        Stream.of("scan ", "left ", "too ").
-                collect(ArrayList<String>::new,
-                        (acc, nxt) -> acc.add(acc.size() > 0 ? acc.get(acc.size() - 1) + nxt : nxt),
-                        ArrayList::addAll).forEach(System.out::println);
-    }
-
     public int[] runningSum(int[] nums) {
 
         return strategy.apply(nums);
     }
 
     enum StrategyE implements Function<int[], int[]> {
+        DECLARATIVE {
+            @Override
+            public int[] apply(int[] nums) {
+                for (int i = 1; i < nums.length; i++) {
+                    nums[i] = nums[i - 1] + nums[i];
+                }
+                return nums;
+            }
+        },
         VIA_COLLECT {
             @Override
             public int[] apply(int[] nums) { // Equivalent to ScanLeft
                 return Arrays.stream(nums)
-                        .collect(ArrayList<Integer>::new,
-                                (acc, nxt) -> acc.add(acc.size() > 0 ? acc.get(acc.size() - 1) + nxt : nxt),
-                                ArrayList::addAll)
+                        .collect(ArrayList<Integer>::new, // Supplier
+                                (acc, nxt) -> acc.add(acc.size() > 0 ? acc.get(acc.size() - 1) + nxt : nxt), // BiConsumer
+                                ArrayList::addAll) // BiConsumer
                         .stream()
                         .mapToInt(i -> i)
                         .toArray();
@@ -47,9 +48,9 @@ public class RunningSum {
             public int[] apply(int[] nums) {
                 return Arrays.stream(nums)
                         .mapToObj(i -> i)
-                        .reduce(add(new ArrayList<Integer>(), 0),
-                                (acc, nxt) -> add(acc, nxt + acc.get(acc.size() - 1)),
-                                (acc1, acc2) -> addAll(acc1, acc2))
+                        .reduce(add(new ArrayList<Integer>(), 0), // Identity
+                                (acc, nxt) -> add(acc, nxt + acc.get(acc.size() - 1)), // BiFunction
+                                (acc1, acc2) -> addAll(acc1, acc2)) // BiFunction
                         .stream()
                         .skip(1)
                         .mapToInt(i -> i)
