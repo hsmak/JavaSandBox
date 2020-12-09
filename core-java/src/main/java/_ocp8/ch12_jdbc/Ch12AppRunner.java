@@ -1,7 +1,11 @@
 package _ocp8.ch12_jdbc;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
+import javax.sql.DataSource;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,6 +27,7 @@ class JDBCTesting {
             Logger logger = Logger.getAnonymousLogger();
             logger.setLevel(Level.OFF);
 
+            //ToDo: Add EmbeddedDataSource
             loadAndRunScript("_data/sql/create.sql", statement, logger);
             loadAndRunScript("_data/sql/data.sql", statement, logger);
 
@@ -30,6 +35,16 @@ class JDBCTesting {
             e.printStackTrace();
         }
     }
+
+    /*public DataSource getDataSource() {
+        // Just stick to the regular DataSource and hibernate will take care of the initialization
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.H2)
+                .addScript("_data/sql/create.sql")
+                .addScript("_data/sql/import.sql")
+                .build();
+        return db;
+    }*/
 
     public static void loadAndRunScript(String resourcePath, Statement stmt, Logger logger) throws SQLException, IOException {
         printMethodNameViaStackWalker(1);
