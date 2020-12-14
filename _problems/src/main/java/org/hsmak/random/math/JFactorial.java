@@ -1,4 +1,4 @@
-package org.hsmak.random;
+package org.hsmak.random.math;
 
 public class JFactorial {
     public static void main(String... args) {
