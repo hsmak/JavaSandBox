@@ -8,30 +8,30 @@ public class JFibonacci {
         System.out.println(fibonacciIter(50));
     }
 
-    public static long fibonacciRecr(long n){
-        return fib(n, 0, 1);
+    public static long fibonacciRecr(long nth){
+        return fib(nth, 0, 1);
     }
 
-    public static long fib(long n, long prev, long cur){
-        if (n == 0)
+    public static long fib(long nth, long prev, long cur){
+        if (nth == 0)
             return prev;
-        else if(n == 1)
+        else if(nth == 1)
             return cur;
         else
-            return fib(n - 1, cur, (prev + cur));//Tail Recursive
+            return fib(nth - 1, cur, (prev + cur));//Tail Recursive
     }
 
-    public static long fibonacciIter(long n){
+    public static long fibonacciIter(long nth){
 
         long prev = 0;
         long cur = 1;
-        if( n == 0)
+        if( nth == 0)
             return prev;
-        if(n == cur)
+        if(nth == cur)
             return cur;
 
         long nxt;
-        for(int i = 2; i <= n; i++){
+        for(int i = 2; i <= nth; i++){
             nxt = prev + cur;
             prev = cur;
             cur = nxt;
