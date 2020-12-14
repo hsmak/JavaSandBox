@@ -13,7 +13,7 @@
     <modules>
         <module>_problems</module>
         <module>core-java</module>
-        <module>datastructures-algorithms</module>
+        <module>data-structures</module>
     </modules>
 
     <properties>
