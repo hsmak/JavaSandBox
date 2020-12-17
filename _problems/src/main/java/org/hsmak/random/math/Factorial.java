@@ -37,7 +37,10 @@ public class Factorial {
         FactIter{
             @Override
             public Long apply(Long aLong) {
-                throw new UnsupportedOperationException("not implemented yet!");
+                long acc = 1;
+                for(long i = 1; i <= aLong; i++)
+                    acc *= i;
+                return acc;
             }
         }
     }
