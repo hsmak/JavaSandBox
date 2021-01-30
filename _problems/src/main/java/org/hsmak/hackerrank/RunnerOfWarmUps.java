@@ -1,9 +1,6 @@
 package org.hsmak.hackerrank;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RunnerOfWarmUps {
 
@@ -108,5 +105,27 @@ class JumpingOnClouds {
             count++;
         }
         return count;
+    }
+}
+
+class EqualizeArray {
+
+    public static void main(String[] args) {
+        int[] nums = Arrays.stream("69 86 100 69 55 83 15 69 86 69 79 16 86 24 24 55 16 69 100 79 16 83 83 79 15 15 86 16 55 18 100 100 86 16 83 79 86 83 100 83 55 15 86 86 55 100 55 18 55 100 86 69 83 24 16 55 100 16 100 24 16 55 15 79 16 18 16 16 83 83 69 18 100 79 16 24 79 16 69 86 83 79 83 18 15 100 24 83"
+                .split(" "))
+                .mapToInt(Integer::valueOf).toArray();
+
+        System.out.println(equalizeArray(nums));
+    }
+    // Complete the equalizeArray function below.
+    static int equalizeArray(int[] arr) {
+        Map<Integer, Integer> m = new HashMap<>();
+        for (Integer i : arr) {
+            if (!m.containsKey(i))
+                m.put(i, 1);
+            else
+                m.put(i, (m.get(i)) + 1);
+        }
+        return arr.length - m.values().stream().mapToInt(i -> i).max().getAsInt();
     }
 }
