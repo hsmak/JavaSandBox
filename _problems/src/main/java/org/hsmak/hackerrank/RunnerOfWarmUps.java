@@ -1,6 +1,7 @@
 package org.hsmak.hackerrank;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class RunnerOfWarmUps {
 
@@ -31,7 +32,7 @@ class SockMerchant {
         return c;
     }
 
-    public static int sockMerchant2(int[] c){
+    public static int sockMerchant2(int[] c) {
         Set<Integer> colors = new HashSet<>();
         int pairs = 0;
 
@@ -78,12 +79,12 @@ class CountingValleys {
     public static int countingValleys2(String path) {
         int v = 0;     // # of valleys
         int lvl = 0;   // current level
-        for(char c : path.toCharArray()){
-            if(c == 'U') ++lvl;
-            if(c == 'D') --lvl;
+        for (char c : path.toCharArray()) {
+            if (c == 'U') ++lvl;
+            if (c == 'D') --lvl;
 
             // if we just came UP to sea level
-            if(lvl == 0 && c == 'U')
+            if (lvl == 0 && c == 'U')
                 ++v;
         }
         return v;
@@ -117,6 +118,7 @@ class EqualizeArray {
 
         System.out.println(equalizeArray(nums));
     }
+
     // Complete the equalizeArray function below.
     static int equalizeArray(int[] arr) {
         Map<Integer, Integer> m = new HashMap<>();
@@ -127,5 +129,33 @@ class EqualizeArray {
                 m.put(i, (m.get(i)) + 1);
         }
         return arr.length - m.values().stream().mapToInt(i -> i).max().getAsInt();
+    }
+}
+
+class RepeatedString {
+
+    public static void main(String[] args) {
+        System.out.println(repeatedString("aba", 10));
+        System.out.println(repeatedString("aa", 3));
+        System.out.println(repeatedString("a", 10000000000000L));
+    }
+
+    // Complete the repeatedString function below.
+    static long repeatedString(String s, long n) {
+        long size = s.length(), repeated = n / size;
+        long rem = n - (size * repeated);
+        int extra = 0;
+
+        long count = IntStream.range(0, s.length()).filter(i -> s.charAt(i) == 'a').count();
+
+        for (int i = 0; i < rem; i++) {
+            if (s.charAt(i) == 'a') {
+                ++extra;
+            }
+        }
+
+        repeated = (repeated * count) + extra;
+
+        return repeated;
     }
 }
