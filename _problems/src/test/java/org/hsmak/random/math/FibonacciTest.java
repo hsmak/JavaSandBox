@@ -27,5 +27,6 @@ public class FibonacciTest {
     public void testFib() {
         assertThat(fibonacci.fib(3)).isEqualTo(2);
         assertThat(fibonacci.fib(9)).isEqualTo(34);
+        assertThat(fibonacci.fib(20)).isEqualTo(6765);
     }
 }
