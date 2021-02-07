@@ -1,6 +1,5 @@
 package org.hsmak.random.string;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +12,13 @@ public class MostFrequentWord {
     public MostFrequentWord(Function<List<String>, String> strategy) {
         this.strategy = strategy;
     }
-    enum StrategyE implements Function<List<String>, String>{
+
+    public String findMostFrequentWord(List<String> words) {
+        return strategy.apply(words);
+
+    }
+
+    enum StrategyE implements Function<List<String>, String> {
         DEFAULT {
             @Override
             public String apply(List<String> words) {
@@ -38,10 +43,5 @@ public class MostFrequentWord {
                 return result;
             }
         }
-    }
-
-    public String findMostFrequentWord(List<String> words) {
-        return strategy.apply(words);
-
     }
 }

@@ -1,6 +1,5 @@
 package org.hsmak.random.string;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -8,7 +7,7 @@ import org.junit.runners.Parameterized;
 import java.util.EnumSet;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Parameterized.class)
 public class MostFrequentWordTest {
