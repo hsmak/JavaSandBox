@@ -32,6 +32,31 @@ public class WordBreak {
     }
 
     enum StrategyE implements BiFunction<String, List<String>, List<String>> {
+        DFS_WithMemoization {
+            @Override
+            public List<String> apply(String s, List<String> wordDict) {
+                return backtrack(s, wordDict, new HashMap<>());
+            }
+
+            private List<String> backtrack(String s, List<String> wordDict, Map<String, List<String>> memoiz) {
+                if (memoiz.containsKey(s))
+                    return memoiz.get(s);
+
+                List<String> sentences = new ArrayList<>();
+
+                for (String word : wordDict) {
+                    if (word.equals(s)) {
+                        sentences.add(word);
+                    } else if (s.startsWith(word)) {
+                        for (String sentence : backtrack(s.substring(word.length()), wordDict, memoiz)) { // Recursion
+                            sentences.add(word.concat(" ").concat(sentence));
+                        }
+                    }
+                }
+                memoiz.put(s, sentences);
+                return sentences;
+            }
+        },
         DFS1 {
             @Override
             public List<String> apply(String s, List<String> wordDict) {
@@ -87,31 +112,6 @@ public class WordBreak {
                         List<String> sublist = dfs(s.substring(word.length()), wordDict, memoiz); // Recursion
                         for (String sub : sublist) {
                             sentences.add(word + (sub.isEmpty() ? "" : " ") + sub);
-                        }
-                    }
-                }
-                memoiz.put(s, sentences);
-                return sentences;
-            }
-        },
-        DFS_WithMemoization {
-            @Override
-            public List<String> apply(String s, List<String> wordDict) {
-                return backtrack(s, wordDict, new HashMap<>());
-            }
-
-            private List<String> backtrack(String s, List<String> wordDict, Map<String, List<String>> memoiz) {
-                if (memoiz.containsKey(s))
-                    return memoiz.get(s);
-
-                List<String> sentences = new ArrayList<>();
-
-                for (String word : wordDict) {
-                    if (word.equals(s)) {
-                        sentences.add(word);
-                    } else if (s.startsWith(word)) {
-                        for (String sentence : backtrack(s.substring(word.length()), wordDict, memoiz)) { // Recursion
-                            sentences.add(word.concat(" ").concat(sentence));
                         }
                     }
                 }
