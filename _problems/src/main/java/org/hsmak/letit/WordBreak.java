@@ -1,8 +1,15 @@
 package org.hsmak.letit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 
+/**
+ * Observations:
+ * - use the wordDict to recursively find the next Substring in the original String
+ */
 public class WordBreak {
 
     BiFunction<String, List<String>, List<String>> strategy;
@@ -12,19 +19,15 @@ public class WordBreak {
     }
 
     public static void main(String[] args) {
-        new WordBreak(StrategyE.DFS1)
-                .wordBreak("catsanddog", List.of("cat", "cats", "and", "sand", "dog"))
-                .forEach(System.out::println);
-        System.out.println();
-
-        new WordBreak(StrategyE.DFS2)
-                .wordBreak("catsanddog", List.of("cat", "cats", "and", "sand", "dog"))
-                .forEach(System.out::println);
-        System.out.println();
-
         new WordBreak(StrategyE.DFS_WithMemoization)
                 .wordBreak("catsanddog", List.of("cat", "cats", "and", "sand", "dog"))
                 .forEach(System.out::println);
+        System.out.println();
+
+        new WordBreak(StrategyE.DFS)
+                .wordBreak("catsanddog", List.of("cat", "cats", "and", "sand", "dog"))
+                .forEach(System.out::println);
+        System.out.println();
     }
 
     public List<String> wordBreak(String s, List<String> wordDict) {
@@ -57,40 +60,7 @@ public class WordBreak {
                 return sentences;
             }
         },
-        DFS1 {
-            @Override
-            public List<String> apply(String s, List<String> wordDict) {
-                Set<String> wordSet = new HashSet<>(wordDict);
-                int n = s.length();
-                List<String>[] dp = new ArrayList[n + 1];
-                return dfs(s, 0, wordSet, dp);
-            }
-
-            private List<String> dfs(String s, int i, Set<String> wordSet, List<String>[] dp) {
-                if (dp[i] != null) {
-                    return dp[i];
-                }
-                if (i == s.length()) {
-                    return Arrays.asList("");
-                }
-                List<String> res = new ArrayList<>();
-                for (int j = i + 1; j <= s.length(); j++) {
-                    String cur = s.substring(i, j);
-                    if (wordSet.contains(cur)) {
-                        List<String> next = dfs(s, j, wordSet, dp); // Recursion
-                        if (!next.isEmpty()) {
-                            for (String suffix : next) {
-                                res.add(cur + (suffix.equals("") ? "" : " ") + suffix);
-                            }
-                        }
-                    }
-                }
-                dp[i] = new ArrayList<>();
-                dp[i] = res;
-                return res;
-            }
-        },
-        DFS2 {
+        DFS {
             @Override
             public List<String> apply(String s, List<String> wordDict) {
                 return dfs(s, wordDict, new HashMap<>());
