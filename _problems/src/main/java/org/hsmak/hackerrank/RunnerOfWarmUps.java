@@ -165,16 +165,17 @@ class RepeatedString {
 class CircularArrayRotation {
 
     public static void main(String[] args) {
-        Arrays.stream(circularArrayRotation(new int[]{1,2,3}, 1, new int[]{0,1})).forEach(System.out::println);
+        Arrays.stream(circularArrayRotation(new int[]{1, 2, 3}, 1, new int[]{0, 1})).forEach(System.out::println);
     }
+
     static int[] circularArrayRotation(int[] a, int k, int[] queries) {
 
         int arr[] = new int[a.length];
 
-        for(int i=0 ; i < a.length ; i++)
-            arr[(i+k) % a.length] = a[i];
+        for (int i = 0; i < a.length; i++)
+            arr[(i + k) % a.length] = a[i];
 
-        for(int i=0 ; i<queries.length ; i++)
+        for (int i = 0; i < queries.length; i++)
             queries[i] = arr[queries[i]];
 
         return queries;
@@ -186,6 +187,7 @@ class ExtraLongFactorials {
     public static void main(String[] args) {
         extraLongFactorials(5);
     }
+
     static void extraLongFactorials(int n) {
         BigInteger f = BigInteger.ONE;
         for (int i = n; i > 0; i--) {
