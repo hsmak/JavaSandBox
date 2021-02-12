@@ -196,3 +196,56 @@ class ExtraLongFactorials {
         System.out.println(f);
     }
 }
+
+/**
+ * O(n log(n)) solution.
+ * 1. find the LCM of all the integers of array A.
+ * 2. find the GCD of all the integers of array B.
+ * 3. Count the number of multiples of LCM that evenly divides the GCD.
+ */
+class BetweenTwoSets {
+    public static void main(String[] args) {
+        System.out.println(getTotalX(List.of(2, 6), List.of(24, 36)));
+    }
+
+    public static int getTotalX(List<Integer> a, List<Integer> b) {
+        int f = lcm(a);
+        int l = gcd(b);
+        int count = 0;
+        for (int i = f, j = 2; i <= l; i = f * j, j++) {
+            if (l % i == 0) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    private static int gcd(int a, int b) {
+        while (b > 0) {
+            int temp = b;
+            b = a % b; // % is remainder
+            a = temp;
+        }
+        return a;
+    }
+
+    private static int gcd(List<Integer> l) {
+        int result = l.get(0);
+        for (int i = 1; i < l.size(); i++) {
+            result = gcd(result, l.get(i));
+        }
+        return result;
+    }
+
+    private static int lcm(int a, int b) {
+        return a * (b / gcd(a, b));
+    }
+
+    private static int lcm(List<Integer> l) {
+        int result = l.get(0);
+        for (int i = 1; i < l.size(); i++) {
+            result = lcm(result, l.get(i));
+        }
+        return result;
+    }
+}
