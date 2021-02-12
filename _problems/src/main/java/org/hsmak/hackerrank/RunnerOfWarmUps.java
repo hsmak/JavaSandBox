@@ -249,3 +249,26 @@ class BetweenTwoSets {
         return result;
     }
 }
+
+class BreakingTheRecords{
+    public static void main(String[] args) {
+        System.out.println(breakingRecords(new int[]{3, 4, 21, 36, 10, 28, 35, 5, 24, 42}));
+    }
+
+    static int[] breakingRecords(int[] scores) {
+        int maxVal = scores[0], minVal = scores[0];
+        int maxC = 0, minC = 0;
+
+        for(int val : scores){
+            if(maxVal > val){
+                maxVal = val;
+                maxC++;
+            }
+            if(minVal < val){
+                minVal = val;
+                minC++;
+            }
+        }
+        return new int[]{minC, maxC};
+    }
+}
