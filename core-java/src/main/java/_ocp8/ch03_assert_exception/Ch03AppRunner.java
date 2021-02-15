@@ -11,16 +11,16 @@ class DeclareOrHandleRunner {
     class AnotherException extends Exception {
     }
 
-    void doM() throws DeclareOrHandleRunner.OneException, DeclareOrHandleRunner.AnotherException {
-        throw new DeclareOrHandleRunner.AnotherException();
+    void doM() throws OneException, AnotherException {
+        throw new AnotherException();
     }
 
-    public static void main(String[] args) throws DeclareOrHandleRunner.AnotherException {
+    public static void main(String[] args) throws AnotherException {
 
         DeclareOrHandleRunner declareOrHandle = new DeclareOrHandleRunner();
         try {
             declareOrHandle.doM();
-        } catch (DeclareOrHandleRunner.OneException e) {
+        } catch (OneException | AnotherException e) {
 
         }
     }
