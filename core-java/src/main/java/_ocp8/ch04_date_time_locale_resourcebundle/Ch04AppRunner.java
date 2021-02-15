@@ -31,6 +31,8 @@ class TimeDateRunner {
         System.out.println(localDateTime.getMonth());
         System.out.println(localDateTime.getMonthValue());
 
+        System.out.println("isLeapYear: " + LocalDate.now().isLeapYear());
+
 
         ZonedDateTime zonedPacific = ZonedDateTime.now(ZoneId.of("US/Pacific"));
         System.out.println(zonedPacific);
@@ -95,25 +97,6 @@ class TimeDateRunner {
 
 class PropertiesRunner {
 
-    /**
-     * Adopted from:
-     * - https://www.baeldung.com/java-lambda-exceptions
-     * - https://dzone.com/articles/how-to-handle-checked-exception-in-lambda-expressi
-     */
-    interface ThrowingSupplier<T, E extends Throwable> {
-        T get() throws E;
-
-        static <T, E extends Throwable> Supplier<T> unchecked(ThrowingSupplier<T, E> consumer) {
-            return () -> {
-                try {
-                    return consumer.get();
-                } catch (Throwable e) {
-                    throw new RuntimeException(e);
-                }
-            };
-        }
-    }
-
     /*
      * ToDo: This method is just to avoid the boilerplate with the checked exception in the lambda expression
      *      - Make it generic
@@ -125,7 +108,6 @@ class PropertiesRunner {
             throw new RuntimeException(e);
         }
     }
-
 
     public static void main(String[] args) throws IOException {
         final String propFileName = "PropTest.props";
@@ -143,5 +125,25 @@ class PropertiesRunner {
             properties.forEach((k, v) -> System.out.println(k + " " + v));
 
         }
+    }
+
+
+    /**
+     * Adopted from:
+     * - https://www.baeldung.com/java-lambda-exceptions
+     * - https://dzone.com/articles/how-to-handle-checked-exception-in-lambda-expressi
+     */
+    interface ThrowingSupplier<T, E extends Throwable> {
+        static <T, E extends Throwable> Supplier<T> unchecked(ThrowingSupplier<T, E> consumer) {
+            return () -> {
+                try {
+                    return consumer.get();
+                } catch (Throwable e) {
+                    throw new RuntimeException(e);
+                }
+            };
+        }
+
+        T get() throws E;
     }
 }
