@@ -38,7 +38,7 @@ class SuppressedExRunner {
     }
 
     public void rethrowEx() throws IOException {
-        try (SuppressedExRunner.Lamb l = new SuppressedExRunner.Lamb()) {
+        try (Lamb l = new Lamb()) {
             throw new IOException("try - rethrowEx");
         } catch (Exception e) {
             for (Throwable s : e.getSuppressed()) {
@@ -50,7 +50,7 @@ class SuppressedExRunner {
     }
 
     public void throwNewEx() throws IOException {
-        try (SuppressedExRunner.Lamb l = new SuppressedExRunner.Lamb()) {
+        try (Lamb l = new Lamb()) {
             throw new IOException("try - throwNewEx");
         } catch (Exception e) {
             for (Throwable s : e.getSuppressed()) {
