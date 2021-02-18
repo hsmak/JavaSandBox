@@ -201,7 +201,10 @@ class StreamingOverMaps {
         map.entrySet().stream().forEach(System.out::println);
 
         System.out.println("--- Sorting ---");
-        System.out.println("-- 1. ByValue - Ascending --");
+        System.out.println("-- 1.1 ByValue - Ascending --");
+        map.entrySet().stream().sorted((e1, e2) -> e1.getValue() - e2.getValue()).forEach(System.out::println);
+        System.out.println();
+        System.out.println("-- 1.2 ByValue - Ascending --");
         map.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(System.out::println);
         System.out.println();
 
