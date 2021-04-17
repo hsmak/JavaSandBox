@@ -250,7 +250,7 @@ class BetweenTwoSets {
     }
 }
 
-class BreakingTheRecords{
+class BreakingTheRecords {
     public static void main(String[] args) {
         System.out.println(breakingRecords(new int[]{3, 4, 21, 36, 10, 28, 35, 5, 24, 42}));
     }
@@ -259,16 +259,99 @@ class BreakingTheRecords{
         int maxVal = scores[0], minVal = scores[0];
         int maxC = 0, minC = 0;
 
-        for(int val : scores){
-            if(maxVal > val){
+        for (int val : scores) {
+            if (maxVal > val) {
                 maxVal = val;
                 maxC++;
             }
-            if(minVal < val){
+            if (minVal < val) {
                 minVal = val;
                 minC++;
             }
         }
         return new int[]{minC, maxC};
+    }
+}
+
+class MakeAnagram {
+
+    static int makeAnagram(String a, String b) {
+
+        Map<Character, Integer> freqMap = new HashMap<>();
+        for (char c : a.toCharArray()) {
+            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+            freqMap.put(c, (cnt + 1));
+        }
+
+        for (char c : b.toCharArray()) {
+            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+            freqMap.put(c, (cnt - 1));
+        }
+
+        List<Integer> values = new ArrayList<>(freqMap.values());
+        int total = 0;
+        for (Integer v : values) {
+            total += Math.abs(v);
+        }
+        return total;
+    }
+}
+
+class CountHoles {
+
+
+    static int countHoles(int num) { // via algebraic calculations
+        int hole[] = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
+
+        int holes = 0;
+
+        while (num > 0) {
+            int d = num % 10; // Last digit in num
+            holes += hole[d];
+            num /= 10; // Remove last digit
+        }
+
+        return holes;
+    }
+
+    static int countHoles2(int num) {
+        int hole[] = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
+
+        char[] chars = String.valueOf(num).toCharArray();
+        int holes = 0;
+
+        for (char c : chars)
+            holes += hole[Character.getNumericValue(c)];
+
+        return holes;
+    }
+
+    static int countHolesViaMap(int num) {
+        Map<Integer, Integer> hole = Map.of(
+                0, 1,
+                1, 0,
+                2, 0,
+                3, 0,
+                4, 1,
+                5, 0,
+                6, 1,
+                7, 0,
+                8, 2,
+                9, 1);
+
+        char[] chars = String.valueOf(num).toCharArray();
+        int holes = 0;
+
+        for (char c : chars)
+            holes += hole.get(Character.getNumericValue(c));
+
+        return holes;
+    }
+
+    public static void main(String[] args) {
+        int num = 6457819;
+        System.out.println(countHoles(num));
+        System.out.println(countHoles2(num));
+        System.out.println(countHolesViaMap(num));
     }
 }
