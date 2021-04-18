@@ -380,3 +380,37 @@ class MaximumSubArraySum {
                 + maxSubArraySum);
     }
 }
+
+class LowestCommonAncestorInBinaryTree{
+    class Node{
+        int data;
+        Node left;
+        Node right;
+    }
+    static Node lcaIter(Node n, int v1, int v2) {
+        while (n != null) {
+            if (n.data > v1 && n.data > v2) {
+                n = n.left;
+            } else if (n.data < v1 && n.data < v2) {
+                n = n.right;
+            } else {
+                break;
+            }
+        }
+        return n;
+    }
+
+    static Node lcaRec(Node root,int v1,int v2)
+    {
+        if(root.data < v1 && root.data < v2){
+            return lcaRec(root.right,v1,v2);
+        }
+        //Bigger than both
+        if(root.data > v1 && root.data > v2){
+            return lcaRec(root.left,v1,v2);
+        }
+
+        //Else solution already found
+        return root;
+    }
+}
