@@ -355,3 +355,28 @@ class CountHoles {
         System.out.println(countHolesViaMap(num));
     }
 }
+
+class MaximumSubArraySum {
+    static int maxSubArraySum(int a[], int size) {
+
+        int maxSum = a[0], currentMax = 0;
+
+        for (int i = 0; i < size; i++) {
+            currentMax = currentMax + a[i];
+            if (currentMax < 0)
+                currentMax = 0;
+            else if (maxSum < currentMax)
+                maxSum = currentMax;
+
+        }
+        return maxSum;
+    }
+
+    public static void main(String[] args) {
+        int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
+        int n = a.length;
+        int maxSubArraySum = maxSubArraySum(a, n);
+        System.out.println("Maximum contiguous sum is "
+                + maxSubArraySum);
+    }
+}
