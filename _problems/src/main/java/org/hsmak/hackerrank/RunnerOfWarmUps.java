@@ -365,7 +365,7 @@ class MaximumSubArraySum {
             currentMax = currentMax + a[i];
             if (currentMax < 0)
                 currentMax = 0;
-            else if (maxSum < currentMax)
+            else if (currentMax > maxSum)
                 maxSum = currentMax;
 
         }
