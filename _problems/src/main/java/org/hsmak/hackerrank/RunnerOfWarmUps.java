@@ -2,6 +2,7 @@ package org.hsmak.hackerrank;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -171,7 +172,7 @@ class CircularArrayRotation {
 
     static int[] circularArrayRotation(int[] a, int k, int[] queries) {
 
-        int arr[] = new int[a.length];
+        int[] arr = new int[a.length];
 
         for (int i = 0; i < a.length; i++)
             arr[(i + k) % a.length] = a[i];
@@ -280,12 +281,14 @@ class MakeAnagram {
 
         Map<Character, Integer> freqMap = new HashMap<>();
         for (char c : a.toCharArray()) {
-            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+//            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+            int cnt = freqMap.getOrDefault(c, 0);
             freqMap.put(c, (cnt + 1));
         }
 
         for (char c : b.toCharArray()) {
-            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+//            int cnt = freqMap.containsKey(c) ? freqMap.get(c) : 0;
+            int cnt = freqMap.getOrDefault(c, 0);
             freqMap.put(c, (cnt - 1));
         }
 
@@ -302,7 +305,7 @@ class CountHoles {
 
 
     static int countHoles(int num) { // via algebraic calculations
-        int hole[] = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
+        int[] hole = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
 
         int holes = 0;
 
@@ -316,7 +319,7 @@ class CountHoles {
     }
 
     static int countHoles2(int num) {
-        int hole[] = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
+        int[] hole = {1, 0, 0, 0, 1, 0, 1, 0, 2, 1};
 
         char[] chars = String.valueOf(num).toCharArray();
         int holes = 0;
@@ -358,76 +361,115 @@ class CountHoles {
 }
 
 class MaximumSubArraySum {
-    static int maxSubArraySum(int[] nums) {
-        int maxSum = nums[0];
-        int currentSum = nums[0];
 
-        for (int i = 1; i < nums.length; i++) {
-            if (currentSum < 0)
-                currentSum = nums[i];
-            else
-                currentSum = currentSum + nums[i];
+    Function<Integer[], Integer> strategy;
 
-            maxSum = Math.max(currentSum, maxSum);
-        }
-        return maxSum;
-    }
-
-    static int maxSubArraySum2(int[] nums) {
-        int maxSum = nums[0];
-        int currentSum = 0;
-        for (int i = 0; i < nums.length; i++) {
-            currentSum += nums[i];
-            maxSum = Math.max(currentSum, maxSum);
-            if (currentSum < 0) {
-                currentSum = 0;
-            }
-        }
-        return maxSum;
-    }
-
-    static int maxSubArraySum3(int nums[]) {
-        int maxSum = nums[0], currentSum = nums[0];
-
-        for (int i = 1; i < nums.length; i++) {
-            currentSum = Math.max(currentSum + nums[i], nums[i]);
-            maxSum = Math.max(currentSum, maxSum);
-        }
-        return maxSum;
+    MaximumSubArraySum(Function<Integer[], Integer> strategy) {
+        this.strategy = strategy;
     }
 
     public static void main(String[] args) {
-        int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
-        int maxSubArraySum = maxSubArraySum(a);
-        System.out.println("Maximum contiguous sum is " + maxSubArraySum);
+
+        EnumSet<StrategyE> strategies = EnumSet.allOf(StrategyE.class);
+        for (StrategyE s : strategies) {
+            System.out.println("--- " + s.name() + "---");
+            MaximumSubArraySum m = new MaximumSubArraySum(s);
+
+            for (Integer[] testCase : testCases()) {
+                int maxSubArraySum = m.maxSubArraySum(testCase);
+                System.out.println("Maximum contiguous sum is " + maxSubArraySum);
+            }
+        }
+    }
+
+    static List<Integer[]> testCases() {
+        List<Integer[]> testData = List.of(
+                new Integer[]{-2, -3, 4, -1, -2, 1, 5, -3},
+                new Integer[]{-2, 1, -3, 4, -1, 2, 1, -5, 4},
+                new Integer[]{5, 4, -1, 7, 8},
+                new Integer[]{-2, -1},
+                new Integer[]{1}
+        );
+        return testData;
+    }
+
+    Integer maxSubArraySum(Integer[] nums) {
+        return strategy.apply(nums);
+    }
+
+    enum StrategyE implements Function<Integer[], Integer> {
+        S1 {
+            @Override
+            public Integer apply(Integer[] nums) {
+                int maxSum = nums[0];
+                int currentSum = nums[0];
+
+                for (int i = 1; i < nums.length; i++) {
+                    if (currentSum < 0)
+                        currentSum = nums[i];
+                    else
+                        currentSum = currentSum + nums[i];
+
+                    maxSum = Math.max(currentSum, maxSum);
+                }
+                return maxSum;
+            }
+        },
+        S2 {
+            @Override
+            public Integer apply(Integer[] nums) {
+                int maxSum = nums[0];
+                int currentSum = 0;
+                for (int i = 0; i < nums.length; i++) {
+                    currentSum += nums[i];
+                    maxSum = Math.max(currentSum, maxSum);
+                    if (currentSum < 0) {
+                        currentSum = 0;
+                    }
+                }
+                return maxSum;
+            }
+        },
+        S3 {
+            @Override
+            public Integer apply(Integer[] nums) {
+                int maxSum = nums[0], currentSum = nums[0];
+
+                for (int i = 1; i < nums.length; i++) {
+                    currentSum = Math.max(currentSum + nums[i], nums[i]);
+                    maxSum = Math.max(currentSum, maxSum);
+                }
+                return maxSum;
+            }
+        }
     }
 }
 
 class LowestCommonAncestorInBinaryTree {
-    static Node lcaIter(Node n, int v1, int v2) {
-        while (n != null) {
-            if (n.data > v1 && n.data > v2) {
-                n = n.left;
-            } else if (n.data < v1 && n.data < v2) {
-                n = n.right;
+    static Node lcaIter(Node current, int v1, int v2) {
+        while (current != null) {
+            if (current.data > v1 && current.data > v2) {
+                current = current.left;
+            } else if (current.data < v1 && current.data < v2) {
+                current = current.right;
             } else {
                 break;
             }
         }
-        return n;
+        return current;
     }
 
-    static Node lcaRec(Node root, int v1, int v2) {
-        if (root.data < v1 && root.data < v2) {
-            return lcaRec(root.right, v1, v2);
+    static Node lcaRec(Node current, int v1, int v2) {
+        // smaller than both
+        if (current.data < v1 && current.data < v2) {
+            return lcaRec(current.right, v1, v2);
         }
-        //Bigger than both
-        if (root.data > v1 && root.data > v2) {
-            return lcaRec(root.left, v1, v2);
+        // larger than both
+        if (current.data > v1 && current.data > v2) {
+            return lcaRec(current.left, v1, v2);
         }
-
-        //Else solution already found
-        return root;
+        // already found
+        return current;
     }
 
     class Node {
@@ -460,8 +502,8 @@ class WebsitePagination {
         return l;
     }
 
-    static List<String> paging(List<List<String>> items, int pageNumber, int itemsPerPage){
-        return items.stream().skip(items.size()-pageNumber - 1).flatMap(l -> l.stream().limit(itemsPerPage)).collect(Collectors.toList());
+    static List<String> paging(List<List<String>> items, int pageNumber, int itemsPerPage) {
+        return items.stream().skip(items.size() - pageNumber - 1).flatMap(l -> l.stream().limit(itemsPerPage)).collect(Collectors.toList());
     }
 
     static class ListComparator implements Comparator<List<String>> {
