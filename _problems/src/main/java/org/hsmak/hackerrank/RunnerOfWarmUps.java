@@ -2,6 +2,7 @@ package org.hsmak.hackerrank;
 
 import java.math.BigInteger;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RunnerOfWarmUps {
@@ -357,36 +358,52 @@ class CountHoles {
 }
 
 class MaximumSubArraySum {
-    static int maxSubArraySum(int a[], int size) {
+    static int maxSubArraySum(int[] nums) {
+        int maxSum = nums[0];
+        int currentSum = nums[0];
 
-        int maxSum = a[0], currentMax = 0;
+        for (int i = 1; i < nums.length; i++) {
+            if (currentSum < 0)
+                currentSum = nums[i];
+            else
+                currentSum = currentSum + nums[i];
 
-        for (int i = 0; i < size; i++) {
-            currentMax = currentMax + a[i];
-            if (currentMax < 0)
-                currentMax = 0;
-            else if (currentMax > maxSum)
-                maxSum = currentMax;
+            maxSum = Math.max(currentSum, maxSum);
+        }
+        return maxSum;
+    }
 
+    static int maxSubArraySum2(int[] nums) {
+        int maxSum = nums[0];
+        int currentSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+            maxSum = Math.max(currentSum, maxSum);
+            if (currentSum < 0) {
+                currentSum = 0;
+            }
+        }
+        return maxSum;
+    }
+
+    static int maxSubArraySum3(int nums[]) {
+        int maxSum = nums[0], currentSum = nums[0];
+
+        for (int i = 1; i < nums.length; i++) {
+            currentSum = Math.max(currentSum + nums[i], nums[i]);
+            maxSum = Math.max(currentSum, maxSum);
         }
         return maxSum;
     }
 
     public static void main(String[] args) {
         int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
-        int n = a.length;
-        int maxSubArraySum = maxSubArraySum(a, n);
-        System.out.println("Maximum contiguous sum is "
-                + maxSubArraySum);
+        int maxSubArraySum = maxSubArraySum(a);
+        System.out.println("Maximum contiguous sum is " + maxSubArraySum);
     }
 }
 
-class LowestCommonAncestorInBinaryTree{
-    class Node{
-        int data;
-        Node left;
-        Node right;
-    }
+class LowestCommonAncestorInBinaryTree {
     static Node lcaIter(Node n, int v1, int v2) {
         while (n != null) {
             if (n.data > v1 && n.data > v2) {
@@ -400,17 +417,63 @@ class LowestCommonAncestorInBinaryTree{
         return n;
     }
 
-    static Node lcaRec(Node root,int v1,int v2)
-    {
-        if(root.data < v1 && root.data < v2){
-            return lcaRec(root.right,v1,v2);
+    static Node lcaRec(Node root, int v1, int v2) {
+        if (root.data < v1 && root.data < v2) {
+            return lcaRec(root.right, v1, v2);
         }
         //Bigger than both
-        if(root.data > v1 && root.data > v2){
-            return lcaRec(root.left,v1,v2);
+        if (root.data > v1 && root.data > v2) {
+            return lcaRec(root.left, v1, v2);
         }
 
         //Else solution already found
         return root;
+    }
+
+    class Node {
+        int data;
+        Node left;
+        Node right;
+    }
+}
+
+class WebsitePagination {
+    public static void main(String[] args) {
+        List<List<String>> l = new ArrayList<>(List.of(
+                new ArrayList<>(List.of("1", "5", "9")),
+                new ArrayList<>(List.of("2", "6", "8")),
+                new ArrayList<>(List.of("3", "7", "7"))));
+        System.out.println(l);
+        sort(l, 2, 0);
+        System.out.println(l);
+        System.out.println(paging(l, 1, 2));
+    }
+
+    static List<List<String>> sort(List<List<String>> l, int sortCol, int sortOrder) {
+        Comparator<List<String>> listComparator;
+        if (sortOrder == 0)
+            listComparator = new ListComparator(sortCol);
+        else
+            listComparator = new ListComparator(sortCol).reversed();
+
+        Collections.sort(l, listComparator);
+        return l;
+    }
+
+    static List<String> paging(List<List<String>> items, int pageNumber, int itemsPerPage){
+        return items.stream().skip(items.size()-pageNumber - 1).flatMap(l -> l.stream().limit(itemsPerPage)).collect(Collectors.toList());
+    }
+
+    static class ListComparator implements Comparator<List<String>> {
+        int column;
+
+        public ListComparator(int column) {
+            this.column = column;
+        }
+
+        @Override
+        public int compare(List<String> o1, List<String> o2) {
+            return o1.get(column).compareTo(o2.get(column));
+        }
     }
 }
